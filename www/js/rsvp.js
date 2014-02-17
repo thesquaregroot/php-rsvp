@@ -1,0 +1,84 @@
+
+// initialize jQuery-UI elements
+function jQueryUI() {
+    // jQuery-UI widgets
+    $('.accordion').accordion({ collapsible: true, active: false, heightStyle: "content"});
+    $('input[type=button], input[type=submit]').button();
+}
+
+function display_options(checkbox) {
+    options = $('#' + checkbox.id + '_options');
+    if ($(checkbox).prop('checked')) {
+        options.show('fast');
+        // must choose a meal
+        $(options).find('input[type=radio]').prop('required', 'required');
+    } else {
+        options.hide('fast');
+        // not required if not coming
+        $(options).find('input[type=radio]').removeProp('required')
+    }
+}
+
+// display thank you
+function thank_you() {
+    $('#rsvp_box').hide('slow');
+    $('#thank_you').show('slow');
+}
+
+$(function() {
+    jQueryUI();
+
+    // Confirm identity
+    $('#wrong_person_link').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $('#wrong_person_instructions').toggle('fast');
+    });
+    // open rsvp response section
+    $('#rsvp_button').click(function() {
+        $('#rsvp_status').toggle('slow');
+    });
+    // Missing people
+    $('#missing_persons_link').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $('#missing_persons_instructions').toggle('fast');
+    });
+    // check plus-ones when entering data
+    $('#rsvp_yes input[id^="name_plus"]').keyup(function() {
+        id = this.id.substring('name_plus'.length);
+        text = this.value;
+        $('#rsvp_yes input[type=checkbox][id="plus' + id + '"]').each(function() {
+            if (text.length == 0) {
+                $(this).removeProp('checked');
+            } else {
+                $(this).prop('checked', 'checked');
+            }
+            display_options(this);
+        });
+    });
+    // show options for guests/plus-ones
+    $('#rsvp_yes input[type=checkbox][id^="person"], #rsvp_yes input[type=checkbox][id^="plus"]').change(function() {
+        display_options(this);
+    });
+
+    // yes/no
+    $('#confirm_yes').submit(function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            // check that a guest is coming
+            var checked = $('#confirm_yes > input[type=checkbox][id^="person"]:checked');
+            if (checked.length == 0) {
+                alert("Looks like no one is coming!  Please check the box next to whoever will able to make it (or click 'No' if no one can come).");
+            } else {
+                thank_you();
+            }
+        }
+    });
+    $('#confirm_no').submit(function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            thank_you();
+        }
+    });
+});

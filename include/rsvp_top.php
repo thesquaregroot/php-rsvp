@@ -1,6 +1,7 @@
 <?php
     include("rsvp_config.php");
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 <title><?=$MASTER_PAGE_TITLE?></title>
@@ -13,4 +14,5 @@
 <script type="text/javascript" src="<?=$JS_DIR?>/rsvp.js"></script>
 <link rel="stylesheet" type="text/css" href="<?=$CSS_DIR?>/rsvp.css" />
 </head>
-<body>
+
+<body class="ui-widget">

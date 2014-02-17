@@ -1,0 +1,40 @@
+html {
+        height: 100%;
+}
+body {
+        min-height: 100%;
+        margin: 0px;
+        background: -webkit-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
+        background: -o-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
+        background: -moz-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
+        background: linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+}
+#content {
+        display: block;
+        padding: 10px;
+}
+#content>div {
+        padding: 20px;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border: black solid thin;
+}
+input[type=button] {
+        font-size: 2em;
+}
+ul#party_list {
+        margin-bottom: 0px;
+}
+#thank_you {
+        display: inline-block;
+/*
+        border: black solid thin;
+        text-align: center;
+        background-color: rgba(255, 255, 000, 1);
+*/
+}
+div[id$="_options"] {
+        margin-left: 2em;
+}
