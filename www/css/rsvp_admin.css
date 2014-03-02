@@ -1,0 +1,66 @@
+html {
+        height: 100%;
+}
+body {
+        min-height: 100%;
+        margin: 0px;
+        background: -webkit-linear-gradient(#CCCCCC, #D0D0D0, #EEEEEE);
+        background: -o-linear-gradient(#CCCCCC, #D0D0D0, #EEEEEE);
+        background: -moz-linear-gradient(#CCCCCC, #D0D0D0, #EEEEEE);
+        background: linear-gradient(#CCCCCC, #D0D0D0, #EEEEEE);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+}
+#content {
+        display: block;
+        padding: 10px;
+}
+#content>div {
+        padding: 20px;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border: black solid thin;
+}
+.success {
+/*        font-weight: bold;*/
+        color: green;
+}
+.error {
+/*        font-weight: bold;*/
+        color: red;
+}
+.data_table {
+        border-collapse: collapse;
+        background-color: #EEEEEE;
+        margin-top: 2em;
+        margin-bottom: 1em;
+        /* rounded border */
+        overflow: hidden;
+        border-radius: 5px;
+}
+.data_table th {
+        background: -webkit-linear-gradient(#CCC, #EEE, #DDD, #CCC);
+        background: -o-linear-gradient(#CCC, #EEE, #DDD, #CCC);
+        background: -moz-linear-gradient(#CCC, #EEE, #DDD, #CCC);
+        background: linear-gradient(#CCC, #EEE, #DDD, #CCC);
+        padding: 5px;
+}
+.data_table td {
+        padding: 5px;
+}
+#party_table tr:last-child td {
+        font-weight: bold;
+}
+.add_entry {
+        color: green;
+}
+.remove_entry {
+        color: red;
+}
+.add_entry, .remove_entry {
+        width: 2em;
+}
+#add_meal_button {
+        position: relative;
+        bottom: 10px;
+}

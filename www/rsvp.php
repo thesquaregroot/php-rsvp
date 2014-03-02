@@ -1,13 +1,16 @@
 <?php
-    require_once("../include/rsvp_top.php");
+    require_once("../include/page_wrapper/rsvp_top.php");
 ?>
 <div id="content">
     <!-- Confirm Identity -->
     <div id="check_identity">
-        <strong>Hello, Tester!</strong> <small>(<a id="wrong_person_link" href="#">Not you?</a>)</small>
-        <div id="wrong_person_instructions" style="display: none;">
-            Oh no!  Send us an email at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$WRONG_PERSON_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> and we'll figure it out.
-        </div>
+        <strong>Hello, Tester!</strong>
+        <small>
+            (<a id="wrong_person_link" href="#">Not you?</a>)
+            <div id="wrong_person_instructions" style="display: none;">
+                Oh no!  Send us an email at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$WRONG_PERSON_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> and we'll figure it out.
+            </div>
+        </small>
     </div>
     <div>
         <!-- Actual Invitation -->
@@ -25,8 +28,10 @@
                     <li>Person Name 2</li>
                     <li>+1</li>
                 </ul>
-                <small><a href="#" id="missing_persons_link">Missing someone?</a></small>
-                <div id="missing_persons_instructions" style="display: none;">Please email us at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$ADDITIONAL_GUEST_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> to request an additional guest.</div>
+                <small>
+                    <a href="#" id="missing_persons_link">Missing someone?</a>
+                    <div id="missing_persons_instructions" style="display: none;">Please email us at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$ADDITIONAL_GUEST_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> to request an additional guest.</div>
+                </small>
                 <p>Will anyone be able to make it?</p>
                 <div class="accordion">
                     <h3>Yes! :-D</h3>
@@ -87,5 +92,5 @@
     </div>
 </div>
 <?php
-    include("../include/rsvp_bottom.php");
+    include("../include/page_wrapper/bottom.php");
 ?>

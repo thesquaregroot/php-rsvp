@@ -1,30 +1,39 @@
 CREATE SCHEMA rsvp;
 
 CREATE TABLE admin_users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
-    password ???
+    password CHAR(60) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE parties (
+    id INT AUTO_INCREMENT,
+    nickname VARCHAR(255) NULL,
+    plus_ones INT DEFAULT 0;
+    PRIARY KEY (id)
+);
+
+CREATE TABLE party_emails (
+    party_id INT NOT NULL,
+    email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE guests (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NULL,
+    id INT AUTO_INCREMENT,
+    party_id INT NOT NULL,
+    name VARCHAR(255) NULL,
     meal_id INT NULL,
-    plus_one_count INT NOT NULL
+    is_plus_one BOOL NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE plus ones (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    guest_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL
-);
+CREATE INDEX idx_emails_guest_id ON emails (guest_id);
 
 CREATE TABLE meals (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    PRIMARY KEY (id)
 );
-
-CREATE INDEX idx_plus_ones_guest_id ON plus_ones.guest_id;
 

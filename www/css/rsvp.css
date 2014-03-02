@@ -21,6 +21,14 @@ body {
         background-color: rgba(255, 255, 255, 0.6);
         border: black solid thin;
 }
+.good {
+/*        font-weight: bold;*/
+        color: green;
+}
+.error {
+/*        font-weight: bold;*/
+        color: red;
+}
 input[type=button] {
         font-size: 2em;
 }
