@@ -133,6 +133,8 @@
             // could not create connection
             print_error("Could not connect as root: " . $mysql_root->connect_error);
         }
+        // close root connection
+        $mysql_root->close();
     }
 
 ?>
