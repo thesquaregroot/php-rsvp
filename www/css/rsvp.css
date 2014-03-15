@@ -4,10 +4,16 @@ html {
 body {
         min-height: 100%;
         margin: 0px;
+        background: linear-gradient(#6699EE, #1223EE);
+        background: -webkit-linear-gradient(#6699EE, #1223EE);
+        background: -o-linear-gradient(#6699EE, #1223EE);
+        background: -moz-linear-gradient(#6699EE, #1223EE);
+/* rainbow, for the daring 
         background: -webkit-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
         background: -o-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
         background: -moz-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
         background: linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
+*/
         background-repeat: no-repeat;
         background-attachment: fixed;
 }
