@@ -1,21 +1,56 @@
 <?php
     require_once(__DIR__."/mysql.php");
 
+    // functions:
+    //
+    //  Login/Session:
+    //      print_login_screen(error)
+    //      authenticate_admin_user(conn, username, password)
+    //
+    //  Adding Entities:
+    //      add_party(conn, nickname, guests[], plus_one_count)
+    //      add_meal(conn, name, description)
+
+    function print_login_screen($error) {
+        require_once(__DIR__."/html_functions.php");
+        // print login screen
+        ?>
+        <div>
+        <?php
+            if (isset($error)) {
+                print_error($error);
+            }
+        ?>
+        <form method=post>
+            <table>
+                <tr><td>Username:</td><td><input name="username" type="text"/></td></tr>
+                <tr><td>Password:</td><td><input name="password" type="password"/></td></tr>
+                <tr><td></td><td><input type="submit"/></td></tr>
+            </table>
+        </form>
+        </div>
+        <?php
+        die();
+    }
+
     function authenticate_admin_user($conn, $username, $password) {
-        if ($stmt = $conn->prepare("SELECT password FROM admin_users WHERE username = ?")) {
+        if ($stmt = $conn->prepare("SELECT id, password FROM admin_users WHERE username = ?")) {
             $stmt->bind_param('s', $username);
             $stmt->execute();
-            $stmt->bind_result($hash);
+            $stmt->bind_result($id, $hash);
             if ($stmt->fetch()) {
                 // check password
-                return password_verify($password, $hash);
+                if (password_verify($password, $hash)) {
+                    $stmt->close();
+                    return $id;
+                }
             }
             $stmt->close();
         }
         // error encountered
-        return false;
+        return null;
     }
-    
+
     function add_party($conn, $nickname, $guests /* array */, $plus_one_count)
     {
         $conn->autocommit(FALSE);

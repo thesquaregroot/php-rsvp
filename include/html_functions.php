@@ -24,7 +24,7 @@
     function print_party_table($conn) {
     ?>
         <table class="data_table" id="party_table" border="1">
-            <tr><th>Party # / Nickname</th><th>Guests</th><th>Plus Ones</th><th>Total</th></tr>
+            <tr><th>Party # / Nickname</th><th>Guests</th><th>Plus Ones</th><th>Total Invited</th></tr>
             <?php
                 $result = $conn->query("SELECT parties.id, nickname, GROUP_CONCAT(guests.name SEPARATOR ', ') AS guests, plus_ones, COUNT(guests.name) + plus_ones AS total"
                                             . " FROM parties INNER JOIN guests ON parties.id = guests.party_id"
