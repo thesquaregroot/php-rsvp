@@ -77,6 +77,7 @@
             $clean_db = $conn->real_escape_string($db);
             if ($conn->query("GRANT SELECT, UPDATE, INSERT, DELETE ON ". $clean_db .".* TO '". $clean_user ."'@'localhost';")) {
                 $conn->commit();
+                $conn->autocommit(TRUE);
                 return "";
             }
         }
@@ -86,21 +87,27 @@
     function create_admin_user($conn, $username, $password) {
         if ($pw_hash = password_hash($password, PASSWORD_BCRYPT)) {
             if ($stmt = $conn->prepare("INSERT INTO admin_users (username, password) VALUES (?, ?);")) {
-                $stmt->bind_param('ss', $username, $pw_hash);
-                if ($stmt->execute()) {
-                    // success
-                    return "";
+                if ($stmt->bind_param('ss', $username, $pw_hash)) {
+                    // successfully bound parameters
+                    if ($stmt->execute()) {
+                        // success
+                        $stmt->close();
+                        return "";
+                    }
                 }
+                $error = $stmt->error;
                 $stmt->close();
+                return $error;
+            } else {
+                return $conn->error;
             }
-            return $conn->error;
         } else {
             // could not hash password
             return "Failure hashing password.";
         }
     }
 
-    function create_database($root_password) {
+    function create_database($root_password, $mysql_user, $mysql_pass, $admin_user, $admin_pass) {
         global $MYSQL_DB_NAME;
         $mysql_root = new mysqli("localhost", "root", $root_password);
         if (!$mysql_root->connect_errno) {
@@ -112,11 +119,11 @@
                     print_error("Could not create rsvp tables: " . $error);
                 } else {
                     // create mysql user
-                    if ($error = create_mysql_user($mysql_root, $_POST['mysql_username'], $_POST['mysql_password1'], $MYSQL_DB_NAME)) {
+                    if ($error = create_mysql_user($mysql_root, $mysql_user, $mysql_pass, $MYSQL_DB_NAME)) {
                         print_error("Could not create rsvp user: " . $error);
                     } else {
                         // create admin user
-                        if ($error = create_admin_user($mysql_root, $_POST['admin_username'], $_POST['admin_password1'])) {
+                        if ($error = create_admin_user($mysql_root, $admin_user, $admin_pass)) {
                             print_error("Failure creating admin user: " . $error);
                         } else {
                             // all successful!
