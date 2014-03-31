@@ -19,6 +19,7 @@
                     . " id INT AUTO_INCREMENT,"
                     . " nickname VARCHAR(255) NULL,"
                     . " plus_ones INT DEFAULT 0,"
+                    . " url_key VARCHAR(255) NULL,"
                     . " PRIMARY KEY (id)"
                     . ");");
         if ($conn->error) {
@@ -58,6 +59,19 @@
                     . " name VARCHAR(255) NOT NULL,"
                     . " description TEXT NOT NULL,"
                     . " PRIMARY KEY (id)"
+                    . ");");
+        if ($conn->error) {
+            return $conn->error;
+        }
+
+        // url keys
+        $conn->query("CREATE TABLE url_keys ("
+                    . " id INT AUTO_INCREMENT,"
+                    . " value VARCHAR(63) NOT NULL,"
+                    . " party_id INT NULL,"
+                    . " user_key TINYINT DEFAULT 0,"
+                    . " PRIMARY KEY (id),"
+                    . " CONSTRAINT UNIQUE INDEX (value)"
                     . ");");
         if ($conn->error) {
             return $conn->error;

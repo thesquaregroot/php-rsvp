@@ -1,3 +1,7 @@
+-- SQL to create database, to have it all in one place
+
+SET storage_engine = INNODB;
+
 CREATE SCHEMA rsvp;
 
 CREATE TABLE admin_users (
@@ -10,7 +14,7 @@ CREATE TABLE admin_users (
 CREATE TABLE parties (
     id INT AUTO_INCREMENT,
     nickname VARCHAR(255) NULL,
-    plus_ones INT DEFAULT 0;
+    plus_ones INT DEFAULT 0,
     PRIARY KEY (id)
 );
 
@@ -35,5 +39,14 @@ CREATE TABLE meals (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE url_keys (
+    id INT AUTO_INCREMENT,
+    word VARCHAR(63) NOT NULL,
+    party_id INT NULL,
+    user_key TINYINT DEFAULT 0,
+    PRIMARY KEY (id),
+    CONSTRAINT UNIQUE INDEX (word)
 );
 

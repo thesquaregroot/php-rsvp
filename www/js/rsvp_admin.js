@@ -2,7 +2,12 @@
 // initialize jQuery-UI elements
 function jQueryUI() {
     // jQuery-UI widgets
-    $('.accordion').accordion({ collapsible: true, active: false, heightStyle: "content"});
+    var hashes = {
+        '#guests' : 0,
+        '#meals' : 1,
+        '#keys' : 2
+    };
+    $('.accordion').accordion({ collapsible: true, active: hashes[window.location.hash], heightStyle: "content"});
     $('input[type=button]:not(.add_entry):not(.remove_entry), input[type=submit]:not(.add_entry):not(.remove_entry)').button();
     $('.spinner').spinner();
 }
