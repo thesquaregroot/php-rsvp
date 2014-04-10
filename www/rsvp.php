@@ -1,10 +1,30 @@
 <?php
     require_once("../include/page_wrapper/rsvp_top.php");
+    require_once("../include/rsvp_functions.php");
 ?>
 <div id="content">
+    <?php
+        session_start();
+        // get user data
+        if (!isset($_SESSION['party_id'])) {
+            // no session intialized
+            if (!isset($_GET['k'])) {
+                // no key passed, ignore user
+                ?><div>Sorry, I'm not sure who you are.  Please try you link again or contact your host at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$INVALID_URL_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a></div><?php
+                // close content div
+                ?></div><?php
+                // clean up stuff included from top
+                include("../include/page_wrapper/bottom.php");
+                die();
+            } else {
+                // key passed, force this key
+                $_SESSION['party_id'] = get_party_id($rsvp_conn, $_GET['k']);
+            }
+        }
+    ?>
     <!-- Confirm Identity -->
     <div id="check_identity">
-        <strong>Hello, Tester!</strong>
+        <strong>Hello, <?php print_party_names($rsvp_conn, $_SESSION['party_id']); ?>!</strong>
         <small>
             (<a id="wrong_person_link" href="#">Not you?</a>)
             <div id="wrong_person_instructions" style="display: none;">
@@ -24,9 +44,17 @@
                 <hr/>
                 <p>We have your party listed as:</p>
                 <ul id="party_list">
-                    <li>Person Name 1</li>
-                    <li>Person Name 2</li>
-                    <li>+1</li>
+                <?php
+                    $names = get_party_names($rsvp_conn, $_SESSION['party_id']);
+                    $plus_ones = get_plus_ones($rsvp_conn, $_SESSION['party_id']);
+                    
+                    foreach ($names as $name) {
+                        echo "<li>$name</li>";
+                    }
+                    if ($plus_ones > 0) {
+                        echo "<li>+$plus_ones</li>";
+                    }
+                ?>
                 </ul>
                 <small>
                     <a href="#" id="missing_persons_link">Missing someone?</a>
@@ -37,27 +65,36 @@
                     <h3>Yes! :-D</h3>
                     <div id="rsvp_yes">
                         <form id="confirm_yes">
-                            <input type="checkbox" id="person1" /><label for="person1">Person Name 1</label><br/>
-                            <div id="person1_options" style="display: none;">
-                                <input type="radio" id="person1_meal1" name="person1_meal" value="1" /><label for="person1_meal1">Meal 1</label>
-                                <input type="radio" id="person1_meal2" name="person1_meal" value="2" /><label for="person1_meal2">Meal 2</label>
-                                <input type="radio" id="person1_meal3" name="person1_meal" value="3" /><label for="person1_meal3">Meal 3</label>
-                                <input type="radio" id="person1_meal4" name="person1_meal" value="0" /><label for="person1_meal4">No Meal</label>
-                            </div>
-                            <input type="checkbox" id="person2" /><label for="person2">Person Name 2</label><br/>
-                            <div id="person2_options" style="display: none;">
-                                <input type="radio" id="person2_meal1" name="person2_meal" value="1" /><label for="person2_meal1">Meal 1</label>
-                                <input type="radio" id="person2_meal2" name="person2_meal" value="2" /><label for="person2_meal2">Meal 2</label>
-                                <input type="radio" id="person2_meal3" name="person2_meal" value="3" /><label for="person2_meal3">Meal 3</label>
-                                <input type="radio" id="person2_meal4" name="person2_meal" value="0" /><label for="person2_meal4">No Meal</label>
-                            </div>
-                            <input type="checkbox" id="plus1" /><input type="text" id="name_plus1" placeholder="+1 (full name)" /><br/>
-                            <div id="plus1_options" style="display: none;">
-                                <input type="radio" id="plus1_meal1" name="plus1_meal" value="1" /><label for="plus1_meal1">Meal 1</label>
-                                <input type="radio" id="plus1_meal2" name="plus1_meal" value="2" /><label for="plus1_meal2">Meal 2</label>
-                                <input type="radio" id="plus1_meal3" name="plus1_meal" value="3" /><label for="plus1_meal3">Meal 3</label>
-                                <input type="radio" id="plus1_meal4" name="plus1_meal" value="0" /><label for="plus1_meal4">No Meal</label>
-                            </div>
+                        <?php
+                            // pre-emptively get the set of meals
+                            $meals = get_meals($rsvp_conn);
+                            // get party members
+                            $stmt = $rsvp_conn->prepare("SELECT id, name, is_plus_one FROM guests WHERE party_id = ? ORDER BY is_plus_one ASC");
+                            $stmt->bind_param('s', $_SESSION['party_id']);
+                            $stmt->execute();
+                            $stmt->bind_result($id, $name, $is_plus_one);
+                            while ($stmt->fetch()) {
+                                if ($is_plus_one) {
+                                    $type = "plus_one";
+                                } else {
+                                    $type = "guest";
+                                }
+                                // check box
+                                ?><input type="checkbox" id="<?=$type?><?=$id?>" /><?php
+                                // name or text box
+                                if ($is_plus_one) {
+                                    ?><input type="text" name="name<?=$type?><?$id?>" id="name_<?=$type?><?$id?>" placeholder="+1 (full name)" /><br/><?php
+                                } else {
+                                    ?><label for="<?=$type?><?=$id?>"><?=$name?></label><br/><?php
+                                }
+                                // box with meal options
+                                ?><div id="<?=$type?><?=$id?>_options" style="display: none;"><?php
+                                foreach ($meals as $meal) {
+                                    ?><input type="radio" id="<?=$type?><?=$id?>_meal<?=$meal['id']?>" name="<?=$type?><?=$id?>_meal" value="<?=$meal['id']?>" /><label for="<?=$type?><?=$id?>_meal<?=$meal['id']?>"><?=$meal['name']?></label><?php
+                                }
+                                ?></div><?php
+                            }
+                        ?>
                             <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                             <span style="float: right;">
                                 <input type="email" id="email_yes" required="required" />
@@ -67,7 +104,7 @@
                     </div>
                     <h3>No... :-(</h3>
                     <div id="rsvp_no">
-                        <?=$NO_RESPONSE_HTML?>
+                        <?=$RESPONSE_NO_HTML?>
                         <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                         <span style="float: right;">
                             <form id="confirm_no">

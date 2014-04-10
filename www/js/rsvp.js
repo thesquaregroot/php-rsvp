@@ -58,7 +58,7 @@ $(function() {
         });
     });
     // show options for guests/plus-ones
-    $('#rsvp_yes input[type=checkbox][id^="person"], #rsvp_yes input[type=checkbox][id^="plus"]').change(function() {
+    $('#rsvp_yes input[type=checkbox][id^="guest"], #rsvp_yes input[type=checkbox][id^="plus"]').change(function() {
         display_options(this);
     });
 
@@ -67,7 +67,7 @@ $(function() {
         event.preventDefault();
         if (this.checkValidity()) {
             // check that a guest is coming
-            var checked = $('#confirm_yes > input[type=checkbox][id^="person"]:checked');
+            var checked = $('#confirm_yes > input[type=checkbox][id^="guest"]:checked');
             if (checked.length == 0) {
                 alert("Looks like no one is coming!  Please check the box next to whoever will able to make it (or click 'No' if no one can come).");
             } else {
