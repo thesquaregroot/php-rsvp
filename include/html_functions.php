@@ -37,15 +37,16 @@
             <th>URL Key</th>
         </tr>
         <?php
-        $result = $conn->query("SELECT parties.id, nickname, GROUP_CONCAT(guests.name SEPARATOR ', ') AS guests, plus_ones, COUNT(guests.name) + plus_ones AS total, url_keys.value AS url_key"
-                                    . " FROM parties INNER JOIN guests ON parties.id = guests.party_id"
+        $result = $conn->query("SELECT parties.id, nickname, guest.guest_list, COALESCE(plus_one.count, 0) AS plus_ones, guest.count + COALESCE(plus_one.count, 0) AS total, url_keys.value AS url_key"
+                                    . " FROM parties INNER JOIN (SELECT party_id, GROUP_CONCAT(name SEPARATOR ', ') AS guest_list, COUNT(name) AS count FROM guests WHERE is_plus_one = 0 GROUP BY party_id) guest ON parties.id = guest.party_id"
+                                    . " LEFT OUTER JOIN (SELECT party_id, COUNT(*) AS count FROM guests WHERE is_plus_one = 1 GROUP BY party_id) plus_one ON parties.id = plus_one.party_id"
                                     . " INNER JOIN url_keys ON parties.id = url_keys.party_id"
                                     . " GROUP BY parties.id;");
         while ($party = $result->fetch_assoc()) {
         ?>
         <tr id="party<?=$party['id']?>">
             <td><?=$party['id']?> / <?=$party['nickname']?></td>
-            <td><?=$party['guests']?></td>
+            <td><?=$party['guest_list']?></td>
             <td><?=$party['plus_ones']?></td>
             <td><?=$party['total']?></td>
             <td>
@@ -58,9 +59,7 @@
         </tr>
         <?php
         }
-        $result = $conn->query("SELECT A.guest_count, B.plus_one_count"
-                                . " FROM (SELECT COUNT(*) AS guest_count FROM guests) AS A"
-                                . " JOIN (SELECT SUM(plus_ones) AS plus_one_count FROM parties) AS B;");
+        $result = $conn->query("SELECT SUM(NOT(is_plus_one)) guest_count, SUM(is_plus_one) AS plus_one_count FROM guests");
         if ($totals = $result->fetch_assoc()) {
             $total = $totals['guest_count'] + $totals['plus_one_count'];
             ?>

@@ -5,6 +5,7 @@
     //
     //  Login/Session:
     //      get_party_id(conn, key)
+    //      get_rsvp_status(conn, party_id)
     //
     //  Display:
     //      get_party_names(conn, party_id)
@@ -23,8 +24,22 @@
         return null;
     }
 
+    function get_rsvp_status($conn, $party_id) {
+        if ($stmt = $conn->prepare("SELECT COUNT(*) FROM guests WHERE party_id = ? AND response is null")) {
+            $stmt->bind_param('i', $party_id);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            if ($stmt->fetch() && $count == 0) {
+                // there are no guests without a response
+                return true;
+            }
+        }
+        // error or there are guests without a response
+        return false;
+    }
+
     function get_party_names($conn, $party_id) {
-        if ($stmt = $conn->prepare("SELECT name FROM guests WHERE party_id = ?")) {
+        if ($stmt = $conn->prepare("SELECT name FROM guests WHERE is_plus_one = 0 AND party_id = ?")) {
             $stmt->bind_param('i', $party_id);
             $stmt->execute();
             $stmt->bind_result($name);
@@ -49,7 +64,7 @@
     }
     
     function get_plus_ones($conn, $party_id) {
-        if ($stmt = $conn->prepare("SELECT plus_ones FROM parties WHERE id = ?")) {
+        if ($stmt = $conn->prepare("SELECT SUM(is_plus_one) FROM guests WHERE party_id = ?")) {
             $stmt->bind_param('i', $party_id);
             $stmt->execute();
             $stmt->bind_result($plus_ones);

@@ -58,8 +58,8 @@
     {
         $conn->begin_transaction();
 
-        $stmt = $conn->prepare("INSERT INTO parties (nickname, plus_ones) VALUES (?, ?)");
-        $stmt->bind_param('si', $nickname, $plus_one_count);
+        $stmt = $conn->prepare("INSERT INTO parties (nickname) VALUES (?)");
+        $stmt->bind_param('s', $nickname);
         $stmt->execute();
         if ($conn->error) {
             print_error("Could not create party '" . $nickname . "': " . $conn->error);
@@ -88,8 +88,23 @@
                 return;
             }
         }
-
         $stmt->close();
+        
+        // add plus ones
+        $stmt = $conn->prepare("INSERT INTO guests (party_id, is_plus_one) VALUES (?, 1)");
+        $stmt->bind_param('i', $party_id);
+        for ($i=0; $i<$plus_one_count; $i++) {
+            $stmt->execute();
+            // fail on any failures
+            if ($conn->error) {
+                print_error("Could not add plug ones.");
+                $conn->rollback();
+                return;
+            }
+        }
+        $stmt->close();
+
+        // all done
         $conn->commit();
     }
     

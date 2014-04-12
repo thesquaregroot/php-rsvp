@@ -19,6 +19,7 @@
             } else {
                 // key passed, force this key
                 $_SESSION['party_id'] = get_party_id($rsvp_conn, $_GET['k']);
+                $_SESSION['responded'] = get_rsvp_status($rsvp_conn, $_SESSION['party_id']);
             }
         }
     ?>
@@ -37,9 +38,26 @@
         <div id="invitation">
             <?=$INVITATION_HTML?>
         </div>
+        <!-- Thank you -->
+        <?php
+            if ($_SESSION['responded']) {
+                ?><div id="thank_you"><?php
+            } else {
+                ?><div id="thank_you" style="display: none;"><?php
+            }
+        ?>
+            <?=$THANK_YOU_HTML?>
+            <small><a href="#" id="rsvp_again_link">(need to make a change?)</a></small>
+        </div>
         <!-- RSVP -->
-        <div id="rsvp_box">
-            <p><input id="rsvp_button" type="button" value="Please RSVP Here" /></p>
+        <?php
+        if ($_SESSION['responded']) {
+            ?><div id="rsvp_box" style="display: none;"><?php
+        } else {
+            ?><div id="rsvp_box">
+                <p><input id="rsvp_button" type="button" value="Please RSVP Here" /></p><?php
+        }
+        ?>
             <div id="rsvp_status" style="display: none;">
                 <hr/>
                 <p>We have your party listed as:</p>
@@ -74,23 +92,18 @@
                             $stmt->execute();
                             $stmt->bind_result($id, $name, $is_plus_one);
                             while ($stmt->fetch()) {
-                                if ($is_plus_one) {
-                                    $type = "plus_one";
-                                } else {
-                                    $type = "guest";
-                                }
                                 // check box
-                                ?><input type="checkbox" id="<?=$type?><?=$id?>" /><?php
+                                ?><input type="checkbox" name="guest<?=$id?>" id="guest<?=$id?>" /><?php
                                 // name or text box
                                 if ($is_plus_one) {
-                                    ?><input type="text" name="name<?=$type?><?$id?>" id="name_<?=$type?><?$id?>" placeholder="+1 (full name)" /><br/><?php
+                                    ?><input type="text" name="name_guest<?=$id?>" id="name_guest<?=$id?>" placeholder="+1 (full name)" /><br/><?php
                                 } else {
-                                    ?><label for="<?=$type?><?=$id?>"><?=$name?></label><br/><?php
+                                    ?><label for="guest<?=$id?>"><?=$name?></label><br/><?php
                                 }
                                 // box with meal options
-                                ?><div id="<?=$type?><?=$id?>_options" style="display: none;"><?php
+                                ?><div id="guest<?=$id?>_options" style="display: none;"><?php
                                 foreach ($meals as $meal) {
-                                    ?><input type="radio" id="<?=$type?><?=$id?>_meal<?=$meal['id']?>" name="<?=$type?><?=$id?>_meal" value="<?=$meal['id']?>" /><label for="<?=$type?><?=$id?>_meal<?=$meal['id']?>"><?=$meal['name']?></label><?php
+                                    ?><input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" value="<?=$meal['id']?>" /><label for="guest<?=$id?>_meal<?=$meal['id']?>"><?=$meal['name']?></label><?php
                                 }
                                 ?></div><?php
                             }
@@ -117,10 +130,6 @@
             </div>
         </div>
         <!-- /RSVP -->
-        <!-- Thank you -->
-        <div id="thank_you" style="display: none;">
-            <?=$THANK_YOU_HTML?>
-        </div>
     </div>
     <!-- Additional Details -->
     <div id="additional_details">

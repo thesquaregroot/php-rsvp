@@ -30,8 +30,9 @@
         $conn->query("CREATE TABLE guests ("
                     . " id INT AUTO_INCREMENT,"
                     . " party_id INT NOT NULL,"
-                    . " name VARCHAR(255) NOT NULL,"
+                    . " name VARCHAR(255) DEFAULT NULL,"
                     . " meal_id INT NULL,"
+                    . " response BOOL DEFAULT NULL,"
                     . " is_plus_one BOOL NOT NULL DEFAULT 0,"
                     . " PRIMARY KEY (id)"
                     . ");");

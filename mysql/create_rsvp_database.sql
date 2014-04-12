@@ -14,7 +14,6 @@ CREATE TABLE admin_users (
 CREATE TABLE parties (
     id INT AUTO_INCREMENT,
     nickname VARCHAR(255) NULL,
-    plus_ones INT DEFAULT 0,
     PRIARY KEY (id)
 );
 
@@ -26,8 +25,9 @@ CREATE TABLE party_emails (
 CREATE TABLE guests (
     id INT AUTO_INCREMENT,
     party_id INT NOT NULL,
-    name VARCHAR(255) NULL,
+    name VARCHAR(255) DEFAULT NULL,
     meal_id INT NULL,
+    response BOOL DEFAULT NULL,
     is_plus_one BOOL NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
