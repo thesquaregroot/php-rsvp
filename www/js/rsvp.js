@@ -73,7 +73,7 @@ $(function() {
             } else {
                 // data seems good, submit to ajax page
                 $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
-                    if (data == 1) {
+                    if (data == 0) {
                         thank_you();
                     } else {
                         alert("There was an error completing your request.  Please try again.");
@@ -90,7 +90,13 @@ $(function() {
     $('#confirm_no').submit(function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
-            thank_you();
+            $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+                if (data == 0) {
+                    thank_you();
+                } else {
+                    alert("There was an error completing your request.  Please try again.");
+                }
+            });
         }
     });
 });

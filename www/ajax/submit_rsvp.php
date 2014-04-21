@@ -2,7 +2,7 @@
     session_start();
     // immediately exit if session party not established
     if (!isset($_SESSION['party_id'])) {
-        die('0');
+        die('255');
     }
     $party_id = $_SESSION['party_id'];
     
@@ -18,7 +18,7 @@
     while ($stmt->fetch()) {
         if ($rsvp_conn->error) {
             $rsvp_conn->rollback();
-            die('0');
+            die('1');
         }
         $guest_ids[] = $guest_id;
     }
@@ -45,12 +45,12 @@
             if (isset($_POST['name_guest'.$guest_id])) {
                 // plus one
                 $name = htmlspecialchars($_POST['name_guest'.$guest_id]); // be careful with user input....
-                $stmt = $rsvp_conn->prepare("UPDATE guests SET response = 0, name = ? WHERE id = ?");
+                $stmt = $rsvp_conn->prepare("UPDATE guests SET response = 0, name = ?, meal_id = NULL WHERE id = ?");
                 $stmt->bind_param('si', $name, $guest_id);
                 $stmt->execute();
             } else {
                 // regular guest
-                $stmt = $rsvp_conn->prepare("UPDATE guests SET response = 0 WHERE id = ?");
+                $stmt = $rsvp_conn->prepare("UPDATE guests SET response = 0, meal_id = NULL WHERE id = ?");
                 $stmt->bind_param('i', $guest_id);
                 $stmt->execute();
             }
@@ -58,11 +58,27 @@
         // failure -- exit
         if ($rsvp_conn->error) {
             $rsvp_conn->rollback();
-            die('0');
+            die('2');
+        }
+    }
+    // add email address, if set
+    if (isset($_POST['email_addr'])) {
+        // delete any existing emails
+        $stmt = $rsvp_conn->query("DELETE FROM party_emails WHERE party_id = ?");
+        $stmt->bind_param('i', $party_id);
+        $stmt->execute();
+        $stmt->close();
+        // add new email
+        $stmt = $rsvp_conn->prepare("INSERT INTO party_emails (party_id, email) VALUES (?, ?)");
+        $stmt->bind_param('is', $party_id, $_POST['email_addr']);
+        $stmt->execute();
+        if ($rsvp_conn->error) {
+            $rsvp_conn->rollback();
+            die('3');
         }
     }
     // all set, everything successful
     $rsvp_conn->commit();
     $_SESSION['responded'] = true;
-    die('1');
+    die('0');
 ?>

@@ -103,14 +103,18 @@
                                 // box with meal options
                                 ?><div id="guest<?=$id?>_options" style="display: none;"><?php
                                 foreach ($meals as $meal) {
-                                    ?><input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" value="<?=$meal['id']?>" /><label for="guest<?=$id?>_meal<?=$meal['id']?>"><?=$meal['name']?></label><?php
+                                    $description = addcslashes(htmlspecialchars($meal['description']), "\"");
+                                    ?>
+                                    <input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" title="<?=$description?>" value="<?=$meal['id']?>" />
+                                    <label for="guest<?=$id?>_meal<?=$meal['id']?>" title="<?=$description?>"><?=$meal['name']?></label>
+                                    <?php
                                 }
                                 ?></div><?php
                             }
                         ?>
                             <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                             <span style="float: right;">
-                                <input type="email" id="email_yes" required="required" />
+                                <input type="email" id="email_addr" />
                                 <input type="submit" value="Confirm" />
                             </span>
                         </form>
@@ -121,7 +125,7 @@
                         <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                         <span style="float: right;">
                             <form id="confirm_no">
-                                <input type="email" id="email_no" required="required" />
+                                <input type="email" id="email_addr" />
                                 <input type="submit" value="Confirm" />
                             </form>
                         </span>
