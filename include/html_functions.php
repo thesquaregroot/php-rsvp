@@ -152,16 +152,15 @@
     <?php
     }
 
-    function print_contact_table($conn) {
+    function print_rsvp_urls_table($conn) {
         global $BASE_RSVP_URL;
     ?>
-    <table id="contact_table" border=1>
+    <table id="rsvp_urls_table" border=1>
     <?php
         $result = $conn->query("SELECT GROUP_CONCAT(COALESCE(guests.name, '+1') ORDER BY guests.name SEPARATOR '; ') AS guests, GROUP_CONCAT(DISTINCT party_emails.email ORDER BY party_emails.email SEPARATOR '; ') AS emails, url_keys.value AS url_key"
                                 . " FROM parties INNER JOIN guests ON guests.party_id = parties.id"
                                 . " LEFT OUTER JOIN party_emails ON party_emails.party_id = parties.id"
                                 . " INNER JOIN url_keys ON url_keys.party_id = parties.id"
-                                . " WHERE response = 1"
                                 . " GROUP BY parties.id");
         $has_guests = false;
         while ($party = $result->fetch_assoc()) {
@@ -172,7 +171,7 @@
             <?php
         }
         if (!$has_guests) {
-            ?>Guests will be displayed here when they rsvp 'yes'.<?php
+            ?>Add some guests to view party URLs.<?php
         }
     ?>
     </table>
