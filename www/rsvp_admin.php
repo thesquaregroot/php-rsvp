@@ -85,23 +85,37 @@
                     if (isset($_POST['nickname'])) {
                         $guests = array();
                         for ($i=1; $i<=$_POST['guest_count']; $i++) {
-                            $guests[] = $_POST['guest_name'.$i];
+                            if (isset($_POST['guest_name'.$i]) && $_POST['guest_name'.$i]) {
+                                $guests[] = $_POST['guest_name'.$i];
+                            }
                         }
-                        add_party($rsvp_conn, $_POST['nickname'], $guests, $_POST['plus_ones']);
+                        if (count($guests) > 0) {
+                            add_party($rsvp_conn, $_POST['nickname'], $guests, $_POST['plus_ones']);
+                        }
+                    }
+                    // handle new key
+                    if (isset($_POST['new_key_party_id'])) {
+                        if ($error = set_url_key($rsvp_conn, $_POST['new_key_party_id'])) {
+                            print_error($error);
+                        }
+                    }
+                    // randomize keys
+                    if (isset($_POST['randomize_keys'])) {
+                        randomize_keys($rsvp_conn);
                     }
                 ?>
-                <form method="post">
+                <form method="post" action="#guests">
                     <table>
-                        <tr><td>Party Nickname:</td><td><input type="text" name="nickname" placeholder="Nickename" /></td><td></td></tr>
+                        <tr><td>Party Nickname:</td><td><input type="text" name="nickname" placeholder="Nickname" /></td></tr>
                         <tr>
                             <td style="vertical-align: top;">
                                 Guest Name(s):
                             </td>
-                            <td id="guest_names" style="vertical-align: top;">
-                                <input type="hidden" id="guest_count" name="guest_count" value=1 />
-                                <input type="text" name="guest_name1" placeholder="Guest Name" required="required"/>
-                            </td>
-                            <td style="vertical-align: bottom;">
+                            <td style="vertical-align: top;">
+                                <div id="guest_names" style="display: inline-block;">
+                                    <input type="hidden" id="guest_count" name="guest_count" value=1 />
+                                    <input type="text" name="guest_name1" placeholder="Guest Name" required="required"/>
+                                </div>
                                 <input id="add_guest_button" type="button" value="+" class="add_entry" />
                             </td>
                         </tr>
@@ -123,26 +137,33 @@
                         }
                     }
                 ?>
-                <form method="post">
+                <form method="post" action="#meals">
                     <input type="hidden" id="meal_count" name="meal_count" value=1 />
-                    <table>
-                        <tr>
-                            <td style="vertical-align: top;">
-                                <div>Meal Name:</div>
-                                <div>Description:</div>
-                            </td>
-                            <td style="vertical-align: top;">
-                                <span id="meals" style="display: inline-block;">
-                                    <input type="text" name="meal_name1" placeholder="Meal" required="required"/><br/>
-                                    <textarea name="meal_description1" placeholder="Description"></textarea>
-                                </span>
-                                <input type="button" class="add_entry" id="add_meal_button" value="+" />
-                            </td>
-                        </tr>
-                        <tr><td></td><td><input type="submit" /></td></tr>
-                    </table>
+                    <div id="meals" style="display: inline-block;">
+                        <input type="text" name="meal_name1" placeholder="Meal" required="required"/><br/>
+                        <textarea name="meal_description1" placeholder="Description"></textarea>
+                    </div>
+                    <input type="button" class="add_entry" id="add_meal_button" value="+" /><br/>
+                    <input type="submit" />
                 </form>
                 <?php print_meal_table($rsvp_conn); ?>
+            </div>
+            <h3>Manage URL Keys</h3>
+            <div>
+                <?php
+                    if (isset($_POST['mass_url_keys'])) {
+                        $keys = array_map('trim', preg_split('/\s+/', $_POST['mass_url_keys']));
+                        $errors = mass_add_keys($rsvp_conn, $keys);
+                        foreach ($errors as $error) {
+                            print_error($error);
+                        }
+                    }
+                ?>
+                <form method="post" action="#keys">
+                    <textarea name="mass_url_keys" style="height: 120px;" placeholder="Put keys on separate lines."/></textarea><br/>
+                    <input type="submit"/>
+                </form>
+                <?php print_available_keys($rsvp_conn); ?>
             </div>
 <?php } ?>
         </div>

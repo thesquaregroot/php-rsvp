@@ -58,7 +58,7 @@ $(function() {
         });
     });
     // show options for guests/plus-ones
-    $('#rsvp_yes input[type=checkbox][id^="person"], #rsvp_yes input[type=checkbox][id^="plus"]').change(function() {
+    $('#rsvp_yes input[type=checkbox][id^="guest"], #rsvp_yes input[type=checkbox][id^="plus"]').change(function() {
         display_options(this);
     });
 
@@ -67,18 +67,36 @@ $(function() {
         event.preventDefault();
         if (this.checkValidity()) {
             // check that a guest is coming
-            var checked = $('#confirm_yes > input[type=checkbox][id^="person"]:checked');
+            var checked = $('#confirm_yes > input[type=checkbox][id^="guest"]:checked');
             if (checked.length == 0) {
                 alert("Looks like no one is coming!  Please check the box next to whoever will able to make it (or click 'No' if no one can come).");
             } else {
-                thank_you();
+                // data seems good, submit to ajax page
+                $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+                    if (data == 0) {
+                        thank_you();
+                    } else {
+                        alert("There was an error completing your request.  Please try again.");
+                    }
+                });
             }
         }
+    });
+    $('#rsvp_again_link').click(function() {
+        $('#rsvp_status').show();
+        $('#rsvp_box').show('slow');
+        $('#rsvp_button').hide();
     });
     $('#confirm_no').submit(function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
-            thank_you();
+            $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+                if (data == 0) {
+                    thank_you();
+                } else {
+                    alert("There was an error completing your request.  Please try again.");
+                }
+            });
         }
     });
 });

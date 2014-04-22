@@ -5,6 +5,7 @@
     $INVITATION_HTML = "<p>You are inivited to our special event!</p>";
     $INVITATION_HTML .= "<p>It will happen at an appropriate space-time coordinates.</p>";
 
+    $INVALID_URL_EMAIL_SUBJECT = urlencode("Wedding RSVP - Bad URL");
     $WRONG_PERSON_EMAIL_SUBJECT = urlencode("Wedding RSVP - Wrong Person");
     $ADDITIONAL_GUEST_EMAIL_SUBJECT = urlencode("Wedding RSVP - Additional Guest");
 
