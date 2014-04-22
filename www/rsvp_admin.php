@@ -165,10 +165,14 @@
                 </form>
                 <?php print_available_keys($rsvp_conn); ?>
             </div>
-            <h3>Contact Guests</h3>
+            <h3>View RSVP URLs</h3>
             <div>
-                <?php print_contact_table($rsvp_conn); ?>
+                <?php print_rsvp_urls_table($rsvp_conn); ?>
             </div>
+            <!--h3>Contact Guests</h3>
+            <div>
+                Not yet implemented...
+            </div-->
 <?php } ?>
         </div>
     </div>
