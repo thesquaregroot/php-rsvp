@@ -114,7 +114,7 @@
                         ?>
                             <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                             <span style="float: right;">
-                                <input type="email" id="email_addr" />
+                                <input type="email" id="email_addr" name="email_addr" />
                                 <input type="submit" value="Confirm" />
                             </span>
                         </form>
@@ -125,7 +125,7 @@
                         <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                         <span style="float: right;">
                             <form id="confirm_no">
-                                <input type="email" id="email_addr" />
+                                <input type="email" id="email_addr" name="email_addr" />
                                 <input type="submit" value="Confirm" />
                             </form>
                         </span>
