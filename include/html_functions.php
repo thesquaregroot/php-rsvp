@@ -1,4 +1,6 @@
 <?php
+    require_once(__DIR__.'/rsvp_config.php');
+
     //  print_success(message)
     //  print_error(message)
     //
@@ -150,4 +152,30 @@
     <?php
     }
 
+    function print_contact_table($conn) {
+        global $BASE_RSVP_URL;
+    ?>
+    <table id="contact_table" border=1>
+    <?php
+        $result = $conn->query("SELECT GROUP_CONCAT(COALESCE(guests.name, '+1') ORDER BY guests.name SEPARATOR '; ') AS guests, GROUP_CONCAT(DISTINCT party_emails.email ORDER BY party_emails.email SEPARATOR '; ') AS emails, url_keys.value AS url_key"
+                                . " FROM parties INNER JOIN guests ON guests.party_id = parties.id"
+                                . " LEFT OUTER JOIN party_emails ON party_emails.party_id = parties.id"
+                                . " INNER JOIN url_keys ON url_keys.party_id = parties.id"
+                                . " WHERE response = 1"
+                                . " GROUP BY parties.id");
+        $has_guests = false;
+        while ($party = $result->fetch_assoc()) {
+            $has_guests = true;
+            ?>
+            <tr><td><?=$party['guests']?></td><td><?=$party['emails']?></td></tr>
+            <tr><td colspan=2><?=$BASE_RSVP_URL?><?=$party['url_key']?></td></tr>
+            <?php
+        }
+        if (!$has_guests) {
+            ?>Guests will be displayed here when they rsvp 'yes'.<?php
+        }
+    ?>
+    </table>
+    <?php
+    }
 ?>

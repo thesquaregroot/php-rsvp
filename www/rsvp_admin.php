@@ -165,6 +165,10 @@
                 </form>
                 <?php print_available_keys($rsvp_conn); ?>
             </div>
+            <h3>Contact Guests</h3>
+            <div>
+                <?php print_contact_table($rsvp_conn); ?>
+            </div>
 <?php } ?>
         </div>
     </div>

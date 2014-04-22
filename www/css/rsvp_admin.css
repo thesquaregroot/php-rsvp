@@ -51,6 +51,17 @@ body {
 #party_table tr:last-child td {
         font-weight: bold;
 }
+#contact_table {
+        border-collapse: collapse;
+}
+#contact_table td {
+        background-color: #CCC;
+        padding: 5px;
+}
+#contact_table td[colspan="2"] {
+        background-color: #FFF;
+        padding: 20px;
+}
 .add_entry {
         color: green;
 }

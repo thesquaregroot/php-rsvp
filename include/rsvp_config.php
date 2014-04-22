@@ -17,6 +17,9 @@
     $THANK_YOU_HTML = "<p>&hearts; Thank you for RSVP-ing!</p>";
 
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
+    
+    // url for rsvp-ing, key should go at the end
+    $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . "/rsvp.php?k=";
 
     // technical details
     $MYSQL_USERNAME = ""; // update after RSVP SETUP

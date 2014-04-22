@@ -64,7 +64,7 @@
     // add email address, if set
     if (isset($_POST['email_addr'])) {
         // delete any existing emails
-        $stmt = $rsvp_conn->query("DELETE FROM party_emails WHERE party_id = ?");
+        $stmt = $rsvp_conn->prepare("DELETE FROM party_emails WHERE party_id = ?");
         $stmt->bind_param('i', $party_id);
         $stmt->execute();
         $stmt->close();
