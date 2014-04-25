@@ -13,9 +13,9 @@ Implemented Features:
 - Random generation of URL keys
 - Ability to supply preferred URL keys
 - Generation of URLs to distribute to potential guests
+- QR codes generated with RSVP URL
 
 Planned Features:
-- QR codes generated with RSVP URL
 - Google Calendar invitations sent on RSVP
 - Ability to delete guests, parties, and meals
 - Ability to edit guests, parties, and meals (can only add currently)
