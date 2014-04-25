@@ -29,6 +29,7 @@
 
     $JS_DIR = "/js";
     $CSS_DIR = "/css";
+    $QR_DIR = "/qrcode";
 
     //$JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
     $JQUERY_LOCATION = "/js/jquery.min.js";

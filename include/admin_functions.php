@@ -1,5 +1,6 @@
 <?php
     require_once(__DIR__."/mysql.php");
+    require_once(__DIR__."/rsvp_config.php");
 
     // functions:
     //
@@ -13,6 +14,9 @@
     //      set_url_key(conn, party_id) -> error
     //      mass_add_keys(conn, keys[]) -> errors[]
     //      randomize_keys(conn) -> error
+    //
+    //  QR Codes:
+    //      qrcode(data, filename)
 
     function print_login_screen($error) {
         require_once(__DIR__."/html_functions.php");
@@ -217,4 +221,24 @@
         // success
         return null;
     }
+
+    function qrcode($data, $filename) {
+        global $QR_DIR;
+        
+        $file_path = $QR_DIR."/".$filename.".png";
+        $abs_file_path = realpath(__DIR__) . "/../www" . $file_path;
+        
+        if (file_exists($abs_file_path)) {
+            ?><img src="<?=$file_path?>" /><?php
+        } else {
+            $qr_cmd = escapeshellcmd("qrencode -l L -v 1 -o ".escapeshellarg($abs_file_path)." ".escapeshellarg($data));
+            exec($qr_cmd, $output, $return_val);
+            if ($return_val == 0) {
+                ?><img src="<?=$file_path?>" /><?php
+            } else {
+                print_error("Could not create QR code.  Please reload to try again.");
+            }
+        }
+    }
+
 ?>

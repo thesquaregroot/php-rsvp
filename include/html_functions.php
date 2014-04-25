@@ -165,9 +165,15 @@
         $has_guests = false;
         while ($party = $result->fetch_assoc()) {
             $has_guests = true;
+            $url = $BASE_RSVP_URL . $party['url_key'];
             ?>
             <tr><td><?=$party['guests']?></td><td><?=$party['emails']?></td></tr>
-            <tr><td colspan=2><?=$BASE_RSVP_URL?><?=$party['url_key']?></td></tr>
+            <tr>
+                <td colspan=2 style="text-align: center;">
+                    <?=$url?><br/>
+                    <?php qrcode($url, $party['url_key']); ?>
+                </td>
+            </tr>
             <?php
         }
         if (!$has_guests) {
