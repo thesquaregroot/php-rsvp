@@ -72,7 +72,7 @@ $(function() {
                 alert("Looks like no one is coming!  Please check the box next to whoever will able to make it (or click 'No' if no one can come).");
             } else {
                 // data seems good, submit to ajax page
-                $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+                $.post('/ajax/submit_rsvp.php', $(this).serialize(), function (data) {
                     if (data == 0) {
                         thank_you();
                     } else {
@@ -90,7 +90,7 @@ $(function() {
     $('#confirm_no').submit(function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
-            $.post('ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+            $.post('/ajax/submit_rsvp.php', $(this).serialize(), function (data) {
                 if (data == 0) {
                     thank_you();
                 } else {
