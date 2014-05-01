@@ -8,6 +8,7 @@
     
     // get db connection
     require_once(__DIR__."/../../include/mysql.php");
+    require_once(__DIR__."/../../include/rsvp_config.php");
     $rsvp_conn->begin_transaction();
     // get guests
     $stmt = $rsvp_conn->prepare("SELECT id FROM guests WHERE party_id = ?");
@@ -76,9 +77,24 @@
             $rsvp_conn->rollback();
             die('3');
         }
+        // all set, everything successful
+        $sent_email=0;
+        if ($ALWAYS_SEND_CONFIRMATION_EMAIL || !$_SESSION['responded']) {
+            // get parameters
+            $to = $_POST['email_addr'];
+            $subject = $CONFIRMATION_EMAIL_SUBJECT;
+            $message = $CONFIRMATION_EMAIL_HTML;
+            $headers = "From: $CONFIRMATION_EMAIL_FROM\r\n"
+                        . "Reply-To: $CONFIRMATION_EMAIL_REPLY_TO\r\n"
+                        . "Cc: $CONFIRMATION_EMAIL_CC\r\n"
+                        . "X-Mailer: PHP/" . phpversion();
+            // send email
+            $sent_email = mail($to, $subject, $message, $headers)?1:-1;
+        }
     }
-    // all set, everything successful
     $rsvp_conn->commit();
     $_SESSION['responded'] = true;
-    die('0');
+    die("0:$sent_email"); // 0:0  - success, no email
+                          // 0:1  - success, email success
+                          // 0:-1 - success, email failed
 ?>
