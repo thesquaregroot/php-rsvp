@@ -14,7 +14,7 @@ body {
         background: -moz-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
         background: linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
 */
-        background-repeat: no-repeat;
+        background-repeat: repeat-x;
         background-attachment: fixed;
 }
 #content {
