@@ -225,8 +225,8 @@
     function qrcode($data, $filename) {
         global $QR_DIR;
         
-        $file_path = $QR_DIR."/".$filename.".png";
-        $abs_file_path = realpath(__DIR__) . "/../www" . $file_path;
+        $file_path = $QR_DIR."/".urlencode(urlencode($filename)).".png";
+        $abs_file_path = realpath(__DIR__) . "/../www" . $QR_DIR."/".urlencode($filename).".png";
         
         if (file_exists($abs_file_path)) {
             ?><img src="<?=$file_path?>" /><?php

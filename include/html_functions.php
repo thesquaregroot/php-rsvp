@@ -49,7 +49,7 @@
         <?php
         $result = $conn->query("SELECT parties.id, nickname, COUNT(guests.id) AS total, SUM(guests.response) AS attending, url_keys.value AS url_key FROM parties"
                                 . " INNER JOIN guests ON parties.id = guests.party_id"
-                                . " INNER JOIN url_keys ON parties.id = url_keys.party_id"
+                                . " LEFT OUTER JOIN url_keys ON parties.id = url_keys.party_id"
                                 . " GROUP BY parties.id");
         while ($party = $result->fetch_assoc()) {
             $stmt = $conn->prepare("SELECT guests.id, guests.name, response, meals.name, is_plus_one FROM guests"
@@ -165,7 +165,7 @@
         $has_guests = false;
         while ($party = $result->fetch_assoc()) {
             $has_guests = true;
-            $url = $BASE_RSVP_URL . $party['url_key'];
+            $url = $BASE_RSVP_URL . urlencode($party['url_key']);
             ?>
             <tr><td><?=$party['guests']?></td><td><?=$party['emails']?></td></tr>
             <tr>
