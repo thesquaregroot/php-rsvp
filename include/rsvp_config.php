@@ -14,9 +14,23 @@
     $RESPONSE_NO_HTML = "<p>Sorry you can't make it!  If you change your mind, please email us before August.</p>";
     $RESPONSE_NO_HTML .= "<p>If you find yourself available the day of, feel free to stop by for drinks at the reception anyway!</p>";
 
-    $THANK_YOU_HTML = "<p>&hearts; Thank you for RSVP-ing!</p>";
+    $THANK_YOU_HTML = "<p>&hearts; Thank you for your RSVP!</p>";
 
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
+    
+    // confirmation emails
+    $ALWAYS_SEND_CONFIRMATION_EMAIL = true;
+    // confirmation email headers
+    $CONFIRMATION_EMAIL_FROM     = $HOST_CONTACT_EMAIL;
+    $CONFIRMATION_EMAIL_REPLY_TO = $HOST_CONTACT_EMAIL;
+    $CONFIRMATION_EMAIL_CC       = $HOST_CONTACT_EMAIL;
+    $CONFIRMATION_EMAIL_SUBJECT  = "Thank You for Your RSVP!";
+    // body
+    $CONFIRMATION_EMAIL_HTML = "<p>Thank you for your RSVP!</p>";
+    $CONFIRMATION_EMAIL_HTML .= "<p>If anything changes, feel free to go back to your link and update the information.</p>";
+    $CONFIRMATION_EMAIL_HTML .= "<p>If you have any questions please reply to this email.</p>";
+    $CONFIRMATION_EMAIL_HTML .= "<p>Additional Details:</p>";
+    $CONFIRMATION_EMAIL_HTML .= $ADDITIONAL_DETAILS_HTML;
     
     // url for rsvp-ing, key should go at the end
     $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . "/rsvp.php?k=";
