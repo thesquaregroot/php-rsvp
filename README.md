@@ -14,8 +14,9 @@ Implemented Features:
 - Ability to supply preferred URL keys
 - Generation of URLs to distribute to potential guests
 - QR codes generated with RSVP URL (by default via qrencode binary: http://fukuchi.org/works/qrencode/index.html.en)
+- Confirmation/Thank-you email sent after RSVP
 
 Planned Features:
-- Google Calendar invitations sent on RSVP
+- Google Calendar invitations sent with confirmation email
 - Ability to delete guests, parties, and meals
 - Ability to edit guests, parties, and meals (can only add currently)

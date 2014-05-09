@@ -73,7 +73,7 @@ $(function() {
             } else {
                 // data seems good, submit to ajax page
                 $.post('/ajax/submit_rsvp.php', $(this).serialize(), function (data) {
-                    if (data[0] == 0) {
+                    if (data[0] == '0') {
                         thank_you();
                     } else {
                         alert("There was an error completing your request.  Please try again.");
@@ -91,7 +91,7 @@ $(function() {
         event.preventDefault();
         if (this.checkValidity()) {
             $.post('/ajax/submit_rsvp.php', $(this).serialize(), function (data) {
-                if (data[0] == 0) {
+                if (data[0] == '0') {
                     thank_you();
                 } else {
                     alert("There was an error completing your request.  Please try again.");

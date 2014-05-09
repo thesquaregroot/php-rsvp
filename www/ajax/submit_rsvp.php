@@ -27,7 +27,10 @@
     foreach ($guest_ids as $guest_id) {
         if (isset($_POST['guest'.$guest_id])) {
             // coming!
-            $meal_id = $_POST['guest'.$guest_id.'_meal'];
+            $meal_id = null;
+            if (isset($_POST['guest'.$guest_id.'_meal'])) {
+                $meal_id = $_POST['guest'.$guest_id.'_meal'];
+            }
             // get name is plus-one
             if (isset($_POST['name_guest'.$guest_id])) {
                 // is a plus-one
@@ -87,11 +90,17 @@
             // get parameters
             $to = $_POST['email_addr'];
             $subject = $CONFIRMATION_EMAIL_SUBJECT;
-            $message = $CONFIRMATION_EMAIL_HTML;
-            $headers = "From: $CONFIRMATION_EMAIL_FROM\r\n"
-                        . "Reply-To: $CONFIRMATION_EMAIL_REPLY_TO\r\n"
-                        . "Cc: $CONFIRMATION_EMAIL_CC\r\n"
-                        . "X-Mailer: PHP/" . phpversion();
+            // message
+            $message = "<html><body>";
+            $message .= $CONFIRMATION_EMAIL_HTML;
+            $message .= "</body></html>";
+            // headers
+            $headers = "From: $CONFIRMATION_EMAIL_FROM\r\n";
+            $headers .= "Reply-To: $CONFIRMATION_EMAIL_REPLY_TO\r\n";
+            $headers .= "Cc: $CONFIRMATION_EMAIL_CC\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion();
             // send email
             $sent_email = mail($to, $subject, $message, $headers)?1:-1;
         }
