@@ -71,11 +71,15 @@
         $stmt->close();
         // add new email
         $stmt = $rsvp_conn->prepare("INSERT INTO party_emails (party_id, email) VALUES (?, ?)");
-        $stmt->bind_param('is', $party_id, $_POST['email_addr']);
-        $stmt->execute();
-        if ($rsvp_conn->error) {
-            $rsvp_conn->rollback();
-            die('3');
+        $addrs = explode(',', $_POST['email_addr']);
+        foreach ($addrs as $addr) {
+            $address = trim($addr);
+            $stmt->bind_param('is', $party_id, $address);
+            $stmt->execute();
+            if ($rsvp_conn->error) {
+                $rsvp_conn->rollback();
+                die('3');
+            }
         }
         // all set, everything successful
         $sent_email=0;
