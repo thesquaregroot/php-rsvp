@@ -1,4 +1,9 @@
--- SQL to create database, to have it all in one place
+--
+-- SQL to create database as "rsvp"
+--
+-- The database is intended to be created by rsvp_admin.php (via include/db_setup_functions.php#create_tables)
+--  This file included largely for documentation purposes.
+--
 
 SET storage_engine = INNODB;
 
@@ -14,6 +19,8 @@ CREATE TABLE admin_users (
 CREATE TABLE parties (
     id INT AUTO_INCREMENT,
     nickname VARCHAR(255) NULL,
+    plus_ones INT DEFAULT 0,
+    url_key VARCHAR(255) NULL,
     PRIMARY KEY (id)
 );
 
@@ -21,6 +28,8 @@ CREATE TABLE party_emails (
     party_id INT NOT NULL,
     email VARCHAR(255) NOT NULL
 );
+
+CREATE INDEX idx_party_emails_party_id ON party_emails (party_id);
 
 CREATE TABLE guests (
     id INT AUTO_INCREMENT,
@@ -32,8 +41,6 @@ CREATE TABLE guests (
     PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_emails_guest_id ON emails (guest_id);
-
 CREATE TABLE meals (
     id INT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -43,10 +50,9 @@ CREATE TABLE meals (
 
 CREATE TABLE url_keys (
     id INT AUTO_INCREMENT,
-    word VARCHAR(63) NOT NULL,
+    value VARCHAR(63) NOT NULL,
     party_id INT NULL,
     user_key TINYINT DEFAULT 0,
     PRIMARY KEY (id),
-    CONSTRAINT UNIQUE INDEX (word)
+    CONSTRAINT UNIQUE INDEX (value)
 );
-
