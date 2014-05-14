@@ -14,7 +14,7 @@ CREATE TABLE admin_users (
 CREATE TABLE parties (
     id INT AUTO_INCREMENT,
     nickname VARCHAR(255) NULL,
-    PRIARY KEY (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE party_emails (
