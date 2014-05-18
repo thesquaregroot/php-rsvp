@@ -1,6 +1,4 @@
 <?php
-    require_once(__DIR__."/mysql.php");
-
     // functions:
     //
     //  Login/Session:

@@ -1,6 +1,4 @@
 <?php
-    include(__DIR__."/rsvp_functions.php");
-    
     $MASTER_PAGE_TITLE = "Your Event Title";
     $HOST_CONTACT_EMAIL = "contact@example.com";
 
@@ -27,6 +25,8 @@
     $CONFIRMATION_EMAIL_REPLY_TO = $HOST_CONTACT_EMAIL;
     $CONFIRMATION_EMAIL_CC       = $HOST_CONTACT_EMAIL;
     $CONFIRMATION_EMAIL_SUBJECT  = "Thank You for Your RSVP!";
+
+    require_once(__DIR__."/rsvp_functions.php");
     function get_confirmation_email_content($conn, $party_id)
     {
         $content = "<p>Hi " . get_party_names_csv($conn, $party_id) . "!</p>";

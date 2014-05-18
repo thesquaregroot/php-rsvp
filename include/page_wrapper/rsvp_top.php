@@ -1,5 +1,6 @@
 <?php
     require_once(__DIR__."/../rsvp_config.php");
+    require_once(__DIR__."/../mysql.php");
 ?>
 <!DOCTYPE html>
 <html>
