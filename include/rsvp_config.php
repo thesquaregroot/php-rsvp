@@ -18,6 +18,9 @@
 
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
     
+    // url for rsvp-ing, key should go at the end
+    $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/rsvp.php?k=';
+    
     // confirmation emails
     $ALWAYS_SEND_CONFIRMATION_EMAIL = true;
     // confirmation email headers
@@ -29,6 +32,7 @@
     require_once(__DIR__."/rsvp_functions.php");
     function get_confirmation_email_content($conn, $party_id)
     {
+        global $BASE_RSVP_URL;
         $content = "<p>Hi " . get_party_names_csv($conn, $party_id) . "!</p>";
         $content .= "<p>Thank you for your RSVP!  We have:</p>";
         $content .= "<p><ul>";
@@ -41,14 +45,11 @@
             $content .= "<li><b>$guest_name</b> - <i>$guest_status</i></li>";
         }
         $content .= "</ul></p>";
-        $content .= "<p>If anything changes feel free to go back to your link and update the information.</p>";
+        $content .= "<p>If anything changes feel free to go back to <a href=\"" . htmlspecialchars($BASE_RSVP_URL . get_url_key($conn, $party_id)) . "\">your link</a> and update the information.</p>";
         $content .= "<p>If you have any questions please reply to this email.</p>";
         $content .= "<p>Thank you! :)</p>";
         return $content;
     }
-    
-    // url for rsvp-ing, key should go at the end
-    $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . "/rsvp.php?k=";
 
     // technical details
     $MYSQL_USERNAME = ""; // update after RSVP SETUP

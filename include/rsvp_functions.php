@@ -11,6 +11,7 @@
     //      get_party_names(conn, party_id)
     //      get_party_names_csv(conn, party_id)
     //      print_party_names(conn, party_id)
+    //      get_party_names(conn, party_id)
 
     function get_party_id($conn, $key) {
         if ($stmt = $conn->prepare("SELECT party_id FROM url_keys WHERE value = ?")) {
@@ -94,5 +95,16 @@
         if ($names = get_party_names_csv($conn, $party_id)) {
             echo $names;
         }
+    }
+
+    function get_url_key($conn, $party_id) {
+        $stmt = $conn->prepare("SELECT value FROM url_keys WHERE party_id = ?");
+        $stmt->bind_param('i', $party_id);
+        $stmt->execute();
+        $stmt->bind_result($url_key);
+        if ($stmt->fetch()) {
+            return urlencode($url_key);
+        }
+        return null;
     }
 ?>
