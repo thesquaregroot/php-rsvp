@@ -8,8 +8,10 @@
     //      get_rsvp_status(conn, party_id)
     //
     //  Display:
-    //      get_party_names(conn, party_id)
     //      get_meals(conn)
+    //      get_plus_ones(conn, party_id)
+    //      get_party_names(conn, party_id)
+    //      get_party_names_csv(conn, party_id)
     //      print_party_names(conn, party_id)
 
     function get_party_id($conn, $key) {
@@ -38,22 +40,6 @@
         return false;
     }
 
-    function get_party_names($conn, $party_id) {
-        if ($stmt = $conn->prepare("SELECT name FROM guests WHERE is_plus_one = 0 AND party_id = ?")) {
-            $stmt->bind_param('i', $party_id);
-            $stmt->execute();
-            $stmt->bind_result($name);
-            $names = array();
-            while ($stmt->fetch()) {
-                $names[] = $name;
-            }
-            if (count($names) > 0) {
-                return $names;
-            }
-        }
-        return null;
-    }
-
     function get_meals($conn) {
         $result = $conn->query("SELECT id, name, description FROM meals");
         $arr = array();
@@ -75,18 +61,40 @@
         return null;
     }
 
-    function print_party_names($conn, $party_id) {
+    function get_party_names($conn, $party_id) {
+        if ($stmt = $conn->prepare("SELECT name FROM guests WHERE is_plus_one = 0 AND party_id = ?")) {
+            $stmt->bind_param('i', $party_id);
+            $stmt->execute();
+            $stmt->bind_result($name);
+            $names = array();
+            while ($stmt->fetch()) {
+                $names[] = $name;
+            }
+            if (count($names) > 0) {
+                return $names;
+            }
+        }
+        return null;
+    }
+
+    function get_party_names_csv($conn, $party_id) {
         if ($names = get_party_names($conn, $party_id)) {
             // print differently based on count
             $size = count($names);
             if ($size == 1) {
-                echo $names[0];
+                return $names[0];
             } else if ($size == 2) {
-                echo "{$names[0]} and {$names[1]}";
+                return "{$names[0]} and {$names[1]}";
             } else {
                 $names[$size-1] = 'and ' . $names[$size-1];
-                echo implode(', ', $names);
+                return implode(', ', $names);
             }
+        }
+    }
+
+    function print_party_names($conn, $party_id) {
+        if ($names = get_party_names_csv($conn, $party_id)) {
+            echo $names;
         }
     }
 ?>

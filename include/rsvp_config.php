@@ -1,4 +1,6 @@
 <?php
+    include(__DIR__."/rsvp_functions.php");
+    
     $MASTER_PAGE_TITLE = "Your Event Title";
     $HOST_CONTACT_EMAIL = "contact@example.com";
 
@@ -25,12 +27,25 @@
     $CONFIRMATION_EMAIL_REPLY_TO = $HOST_CONTACT_EMAIL;
     $CONFIRMATION_EMAIL_CC       = $HOST_CONTACT_EMAIL;
     $CONFIRMATION_EMAIL_SUBJECT  = "Thank You for Your RSVP!";
-    // body
-    $CONFIRMATION_EMAIL_HTML = "<p>Thank you for your RSVP!</p>";
-    $CONFIRMATION_EMAIL_HTML .= "<p>If anything changes, feel free to go back to your link and update the information.</p>";
-    $CONFIRMATION_EMAIL_HTML .= "<p>If you have any questions please reply to this email.</p>";
-    $CONFIRMATION_EMAIL_HTML .= "<p>Additional Details:</p>";
-    $CONFIRMATION_EMAIL_HTML .= $ADDITIONAL_DETAILS_HTML;
+    function get_confirmation_email_content($conn, $party_id)
+    {
+        $content = "<p>Hi " . get_party_names_csv($conn, $party_id) . "!</p>";
+        $content .= "<p>Thank you for your RSVP!  We have:</p>";
+        $content .= "<p><ul>";
+        // get guests
+        $stmt = $conn->prepare("SELECT guests.name, CASE WHEN guests.response = 1 THEN 'attending' ELSE 'not attending' END FROM guests WHERE party_id = ? AND name <> ''");
+        $stmt->bind_param('i', $party_id);
+        $guests = $stmt->execute();
+        $stmt->bind_result($guest_name, $guest_status);
+        while ($stmt->fetch()) {
+            $content .= "<li><b>$guest_name</b> - <i>$guest_status</i></li>";
+        }
+        $content .= "</ul></p>";
+        $content .= "<p>If anything changes feel free to go back to your link and update the information.</p>";
+        $content .= "<p>If you have any questions please reply to this email.</p>";
+        $content .= "<p>Thank you! :)</p>";
+        return $content;
+    }
     
     // url for rsvp-ing, key should go at the end
     $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . "/rsvp.php?k=";

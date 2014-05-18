@@ -92,7 +92,7 @@
             $subject = $CONFIRMATION_EMAIL_SUBJECT;
             // message
             $message = "<html><body>";
-            $message .= $CONFIRMATION_EMAIL_HTML;
+            $message .= get_confirmation_email_content($rsvp_conn, $party_id);
             $message .= "</body></html>";
             // headers
             $headers = "From: $CONFIRMATION_EMAIL_FROM\r\n";
