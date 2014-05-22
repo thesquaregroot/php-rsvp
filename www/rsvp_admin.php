@@ -123,7 +123,17 @@
                         <tr><td></td><td><input type="submit" /></td></tr>
                     </table>
                 </form>
-                <?php print_party_table($rsvp_conn); ?>
+                <?php
+                    if (isset($_POST['delete_party'])) {
+                        $party_id = $_POST['delete_party'];
+                        delete_party($rsvp_conn, $party_id);
+                    }
+                    if (isset($_POST['delete_guest'])) {
+                        $guest_id = $_POST['delete_guest'];
+                        delete_guest($rsvp_conn, $guest_id);
+                    }
+                    print_party_table($rsvp_conn);
+                ?>
             </div>
             <h3>Add/Edit Meal Options</h3>
             <div>
@@ -146,7 +156,13 @@
                     <input type="button" class="add_entry" id="add_meal_button" value="+" /><br/>
                     <input type="submit" />
                 </form>
-                <?php print_meal_table($rsvp_conn); ?>
+                <?php
+                    if (isset($_POST['delete_meal'])) {
+                        $meal_id = $_POST['delete_meal'];
+                        delete_meal($rsvp_conn, $meal_id);
+                    }
+                    print_meal_table($rsvp_conn);
+                ?>
             </div>
             <h3>Manage URL Keys</h3>
             <div>
@@ -163,7 +179,13 @@
                     <textarea name="mass_url_keys" style="height: 120px;" placeholder="Put keys on separate lines."/></textarea><br/>
                     <input type="submit"/>
                 </form>
-                <?php print_available_keys($rsvp_conn); ?>
+                <?php
+                    if (isset($_POST['delete_url_key'])) {
+                        $url_key_id = $_POST['delete_url_key'];
+                        delete_url_key($rsvp_conn, $url_key_id);
+                    }
+                    print_available_keys_table($rsvp_conn);
+                ?>
             </div>
             <h3>View RSVP URLs</h3>
             <div>

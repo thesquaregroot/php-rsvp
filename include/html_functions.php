@@ -6,6 +6,8 @@
     //
     //  print_meal_table(conn)
     //  print_party_table(conn)
+    //  print_available_keys_table(conn)
+    //  print_rsvp_urls_table(conn)
 
     function print_success($message) {
         ?><div class="success">SUCCESS: <?=$message?></div><?php
@@ -26,7 +28,12 @@
             while ($meal = $result->fetch_assoc()) {
             ?>
             <tr id="meal<?=$meal['id']?>">
-                <td><?=$meal['name']?></td>
+                <td>
+                    <?=$meal['name']?>
+                    <small style="float: right;">
+                        <form method="post" action="#meals"><button class="delete_button" name="delete_meal" value="<?=$meal['id']?>">delete</button></form>
+                    </small>
+                </td>
                 <td><?=$meal['description']?></td>
                 <td><?=$meal['ordered']?></td>
             </tr>
@@ -85,8 +92,19 @@
                     $new = false;
         ?>
         <tr id="party<?=$party['id']?>">
-            <td rowspan="<?=$guest_count?>"><?=$party['id']?> / <?=$party['nickname']?></td>
-            <td><?=$guest_name?></td>
+            <td rowspan="<?=$guest_count?>">
+                <?=$party['id']?> / <?=$party['nickname']?>
+                <small style="float: right;">
+                    <!--button value="<?=$party['id']?>" class="edit_button edit_party">edit</button-->
+                    <form method="post" action="#guests"><button class="delete_button" name="delete_party" value="<?=$party['id']?>">delete</button></form>
+                </small>
+            </td>
+            <td>
+                <?=$guest_name?>
+                <small style="float: right;">
+                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                </small>
+            </td>
             <td><?=$meal?></td>
             <td><?=$response?></td>
             <td rowspan="<?=$guest_count?>"><?=$party['attending']?> / <?=$party['total']?></td>
@@ -102,7 +120,12 @@
                 } else {
         ?>
         <tr>
-            <td><?=$guest_name?></td>
+            <td>
+                <?=$guest_name?>
+                <small style="float: right;">
+                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                </small>
+            </td>
             <td><?=$meal?></td>
             <td><?=$response?></td>
         </tr>
@@ -136,15 +159,22 @@
     <?php
     }
 
-    function print_available_keys($conn) {
+    function print_available_keys_table($conn) {
     ?>
     <table class="data_table" id="url_keys_table" border="1">
         <tr><th>Available Keys</th></tr>
         <?php
-        $result = $conn->query("SELECT value FROM url_keys WHERE party_id is null");
+        $result = $conn->query("SELECT id, value FROM url_keys WHERE party_id is null");
         while ($key = $result->fetch_assoc()) {
             ?>
-            <tr><td><?=$key['value']?></td></tr>
+            <tr>
+                <td>
+                    <?=$key['value']?>
+                    <small style="float: right;">
+                        <form method="post" action="#keys"><button class="delete_button" name="delete_url_key" value="<?=$key['id']?>">delete</button></form>
+                    </small>
+                </td>
+            </tr>
             <?php
         }
         ?>

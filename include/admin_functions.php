@@ -15,6 +15,12 @@
     //      mass_add_keys(conn, keys[]) -> errors[]
     //      randomize_keys(conn) -> error
     //
+    //  Editing/Deleting Entities:
+    //      delete_party(conn, party_id)
+    //      delete_guest(conn, guest_id)
+    //      delete_meal(conn, meal_id)
+    //      delete_url_key(conn, url_key_id)
+    //
     //  QR Codes:
     //      qrcode(data, filename)
 
@@ -220,6 +226,52 @@
         }
         // success
         return null;
+    }
+
+    function delete_party($conn, $party_id) {
+        $stmt = $conn->prepare("DELETE FROM guests WHERE party_id = ?");
+        $stmt->bind_param('i', $party_id);
+        if ($stmt->execute()) {
+            $stmt = $conn->prepare("DELETE FROM parties WHERE id = ?");
+            $stmt->bind_param('i', $party_id);
+            if ($stmt->execute()) {
+                print_success("Deleted party $party_id.");
+            } else {
+                print_error("Could not delete party, but guests for party $party_id deleted: " . $stmt->error);
+            }
+        } else {
+            print_error("Could not delete party $party_id guests:" . $stmt->error);
+        }
+    }
+
+    function delete_guest($conn, $guest_id) {
+        $stmt = $conn->prepare("DELETE FROM guests WHERE id = ?");
+        $stmt->bind_param('i', $guest_id);
+        if ($stmt->execute()) {
+            print_success("Deleted guest $guest_id.");
+        } else {
+            print_error("Could not delete guest $guest_id: " . $stmt->error);
+        }
+    }
+
+    function delete_meal($conn, $meal_id) {
+        $stmt = $conn->prepare("DELETE FROM meals WHERE id = ?");
+        $stmt->bind_param('i', $meal_id);
+        if ($stmt->execute()) {
+            print_success("Deleted meal $meal_id.");
+        } else {
+            print_error("Could not delete meal $meal_id: " . $stmt->error);
+        }
+    }
+
+    function delete_url_key($conn, $url_key_id) {
+        $stmt = $conn->prepare("DELETE FROM url_keys WHERE id = ?");
+        $stmt->bind_param('i', $url_key_id);
+        if ($stmt->execute()) {
+            print_success("Deleted URL key $url_key_id.");
+        } else {
+            print_error("Could not delete URL key $url_key_id: " . $stmt->error);
+        }
     }
 
     function qrcode($data, $filename) {

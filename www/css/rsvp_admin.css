@@ -75,3 +75,6 @@ body {
         position: relative;
         bottom: 10px;
 }
+.delete_button {
+        color: #A00 !important;
+}

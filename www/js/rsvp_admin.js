@@ -5,11 +5,23 @@ function jQueryUI() {
     var hashes = {
         '#guests' : 0,
         '#meals' : 1,
-        '#keys' : 2
+        '#keys' : 2,
+        '#urls' : 3
     };
     $('.accordion').accordion({ collapsible: true, active: hashes[window.location.hash], heightStyle: "content"});
-    $('input[type=button]:not(.add_entry):not(.remove_entry), input[type=submit]:not(.add_entry):not(.remove_entry)').button();
+    $('input[type=button]:not(.add_entry):not(.remove_entry), input[type=submit]:not(.add_entry):not(.remove_entry), button').button();
     $('.spinner').spinner();
+    
+    $('.edit_button').button({
+        icons: {
+            primary: 'ui-icon-pencil'
+        }
+    });
+    $('.delete_button').button({
+        icons: {
+            primary: 'ui-icon-cancel'
+        }
+    });
 }
 
 function passwords_match(prefix) {
@@ -77,4 +89,28 @@ $(function() {
             $(this).parent("div").remove();
         });
     });
+    //$('.edit_party').click(function() {
+    //    // TODO
+    //});
+    $('[name="delete_party"]').click(function() {
+        if (!confirm("Are you sure you want to delete party " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
+    $('[name="delete_guest"]').click(function() {
+        if (!confirm("Are you sure you want to delete guest " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
+    $('[name="delete_meal"]').click(function() {
+        if (!confirm("Are you sure you want to delete meal " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
+    $('[name="delete_url_key"]').click(function() {
+        if (!confirm("Are you sure you want to delete URL key " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
 });
+
