@@ -20,6 +20,12 @@
     
     // url for rsvp-ing, key should go at the end
     $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/rsvp.php?k=';
+    // if using .htaccess to avoid 'rsvp.php?k=' piece
+    //$BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/';
+
+    // switch to false to force users to live out their sessions
+    // when set to true (default), a user can access multiple URLs back-to-back
+    $ALLOW_CHANGE_OF_PARTY = true;
     
     // confirmation emails
     $ALWAYS_SEND_CONFIRMATION_EMAIL = true;

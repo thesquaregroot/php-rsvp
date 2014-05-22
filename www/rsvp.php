@@ -6,7 +6,7 @@
     <?php
         session_start();
         // get user data
-        if (!isset($_SESSION['party_id'])) {
+        if (!isset($_SESSION['party_id']) || $ALLOW_CHANGE_OF_PARTY) {
             // no session intialized
             if (!isset($_GET['k'])) {
                 // no key passed, ignore user
