@@ -1,9 +1,12 @@
 php-rsvp
 ========
 
-A PHP/MySQL framework for creating websites for accepting RSVPs to weddings and other events.
+php-rsvp is a LAMP package for creating websites for accepting RSVPs to weddings and other events.
 
 Guests can RSVP by requesting `rsvp.php?k=[key]` where `[key]` is either randomly generated or chosen randomly from a list of supplied options.
+
+Features
+--------
 
 Implemented Features:
 - Parties with multiple guests
@@ -20,3 +23,33 @@ Planned Features:
 - Google Calendar invitations sent with confirmation email
 - Ability to delete guests, parties, and meals
 - Ability to edit guests, parties, and meals (can only add currently)
+
+Additional possibilities
+------------------------
+The "rsvp.php?k=" part of the URL isn't the most attrative.
+
+You can circumvent this by placing a .htaccess file in the www directory
+containing:
+
+```
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*) /rsvp.php?k=$1 [B]
+```
+
+This will take your URL path and, assuming it does not reference a valid file,
+assumes that it should be used as a URL key.
+
+For example, for:
+
+```
+http://example.com/f8eCvyrI
+```
+
+Since 'f8eCvyrI' is probably not a file on your server, this will automatically
+be translated by apache (via the .htaccess file) into:
+
+```
+http://example.com/rsvp.php?k=f8eCvyrI
+```
+
