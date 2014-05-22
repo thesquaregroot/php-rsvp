@@ -60,6 +60,10 @@
     $JS_DIR = "/js";
     $CSS_DIR = "/css";
     $QR_DIR = "/qrcode";
+    
+    $QR_LEVEL = 'L'; // valid values: L, M, Q, H
+    $QR_VERSION = 1; // QR code version
+    $QR_SIZE = 3; // size of dot in pixels
 
     //$JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
     $JQUERY_LOCATION = "/js/jquery.min.js";
