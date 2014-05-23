@@ -9,16 +9,15 @@
         if (!isset($_SESSION['party_id']) || $ALLOW_CHANGE_OF_PARTY) {
             // no session intialized
             if (!isset($_GET['k'])) {
-                // no key passed, ignore user
-                ?><div>Sorry, I'm not sure who you are.  Please try you link again or contact your host at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$INVALID_URL_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a></div><?php
-                // close content div
-                ?></div><?php
-                // clean up stuff included from top
-                include("../include/page_wrapper/bottom.php");
-                die();
+                // no key supplied
+                fail_rsvp("Sorry, I'm not sure who you are.");
             } else {
                 // key passed, force this key
                 $_SESSION['party_id'] = get_party_id($rsvp_conn, $_GET['k']);
+                if ($_SESSION['party_id'] == null) {
+                    // invalid key
+                    fail_rsvp("Could find a party for \"{$_GET['k']}\".");
+                }
                 $_SESSION['responded'] = get_rsvp_status($rsvp_conn, $_SESSION['party_id']);
             }
         }

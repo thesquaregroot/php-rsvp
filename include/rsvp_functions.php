@@ -4,6 +4,7 @@
     //  Login/Session:
     //      get_party_id(conn, key)
     //      get_rsvp_status(conn, party_id)
+    //      fail_rsvp(error)
     //
     //  Display:
     //      get_meals(conn)
@@ -37,6 +38,22 @@
         }
         // error or there are guests without a response
         return false;
+    }
+
+    function fail_rsvp($error) {
+        global $HOST_CONTACT_EMAIL;
+        global $INVALID_URL_EMAIL_SUBJECT;
+        ?>
+        <div>
+            <p><?=$error?></p>
+            <p>Please try your link again or contact your host at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$INVALID_URL_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a>.</p>
+        </div>
+        <?php // close content div ?>
+        </div>
+        <?php
+        // clean up stuff included from top
+        include("../include/page_wrapper/bottom.php");
+        die();
     }
 
     function get_meals($conn) {
