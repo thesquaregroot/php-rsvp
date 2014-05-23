@@ -3,7 +3,7 @@
 function jQueryUI() {
     // jQuery-UI widgets
     $('.accordion').accordion({ collapsible: true, active: false, heightStyle: "content"});
-    $('input[type=button], input[type=submit]').button();
+    $('button,input[type=button],input[type=submit]').button();
 }
 
 function display_options(checkbox) {

@@ -16,4 +16,4 @@
 <link rel="stylesheet" type="text/css" href="<?=$CSS_DIR?>/rsvp.css" />
 </head>
 
-<body class="ui-widget">
+<body>

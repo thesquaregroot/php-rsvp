@@ -4,6 +4,8 @@ html {
 body {
         min-height: 100%;
         margin: 0px;
+        font-size: 1em;
+        font-family: Helvetica;
         background: linear-gradient(#6699EE, #1223EE);
         background: -webkit-linear-gradient(#6699EE, #1223EE);
         background: -o-linear-gradient(#6699EE, #1223EE);
@@ -14,8 +16,12 @@ body {
         background: -moz-linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
         background: linear-gradient(#FF0000, #FF8800, #FFFF00, #00FF00, #0000FF, #FF00FF);
 */
-        background-repeat: repeat-x;
+        background-repeat: no-repeat;
         background-attachment: fixed;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
 }
 #content {
         display: block;
@@ -35,8 +41,44 @@ body {
 /*        font-weight: bold;*/
         color: red;
 }
-input[type=button] {
-        font-size: 2em;
+@media only screen and (max-device-width: 600px) {
+        body {
+                font-size: 1.5em !important;
+        }
+        input,label {
+                margin: 0.3em !important;
+                font-size: 1.5em !important;
+        }
+        input[type="checkbox"],input[type="radio"] {
+                height: 0.8em !important;
+                width: 0.8em !important;
+        }
+}
+@media only screen and (min-device-width: 601px) and (max-device-width: 800px) {
+        body {
+                font-size: 1.3em !important;
+        }
+        input,label {
+                margin: 0.3em !important;
+                font-size: 1.3em !important;
+        }
+        input[type="checkbox"],input[type="radio"] {
+                height: 0.7em !important;
+                width: 0.7em !important;
+        }
+}
+@media only screen (min-device-width: 801px) {
+        body {
+                font-size: 1.1em !important;
+        }
+        input,label {
+                margin: 0.3em !important;
+                font-size: 1.1em !important;
+        }
+        input[type="checkbox"],input[type="radio"] {
+                height: 0.6em !important;
+                width: 0.6em !important;
+        }
 }
 ul#party_list {
         margin-bottom: 0px;

@@ -47,7 +47,7 @@
             }
         ?>
             <?=$THANK_YOU_HTML?>
-            <small><a href="#" id="rsvp_again_link">(need to make a change?)</a></small>
+            <a href="#" id="rsvp_again_link">(need to make a change?)</a>
         </div>
         <!-- RSVP -->
         <?php
@@ -55,7 +55,7 @@
             ?><div id="rsvp_box" style="display: none;"><?php
         } else {
             ?><div id="rsvp_box">
-                <p><input id="rsvp_button" type="button" value="Please RSVP Here" /></p><?php
+                <p><button id="rsvp_button">Please RSVP Here</button></p><?php
         }
         ?>
             <div id="rsvp_status" style="display: none;">
@@ -106,7 +106,7 @@
                                     $description = addcslashes(htmlspecialchars($meal['description']), "\"");
                                     ?>
                                     <input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" title="<?=$description?>" value="<?=$meal['id']?>" />
-                                    <label for="guest<?=$id?>_meal<?=$meal['id']?>" title="<?=$description?>"><?=$meal['name']?></label>
+                                    <label for="guest<?=$id?>_meal<?=$meal['id']?>" title="<?=$description?>"><?=$meal['name']?> [<i><?=$description?></i>]</label><br/>
                                     <?php
                                 }
                                 ?></div><?php
@@ -116,7 +116,7 @@
                             <span style="float: right;">
                                 <small>You can enter multiple addresses separated by commas.</small><br/>
                                 <input id="email_addr" name="email_addr" />
-                                <input type="submit" value="Confirm" />
+                                <button type="submit">Confirm</button>
                             </span>
                         </form>
                     </div>
@@ -128,7 +128,7 @@
                             <form id="confirm_no">
                                 <small>You can enter multiple addresses separated by commas.</small><br/>
                                 <input id="email_addr" name="email_addr" />
-                                <input type="submit" value="Confirm" />
+                                <button type="submit">Confirm"</button>
                             </form>
                         </span>
                     </div>
