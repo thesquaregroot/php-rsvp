@@ -34,7 +34,9 @@ containing:
 ```
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*) /rsvp.php?k=$1 [B]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^([^/]+)$ /rsvp.php?k=$1 [B,L]
 ```
 
 This will take your URL path and, assuming it does not reference a valid file,

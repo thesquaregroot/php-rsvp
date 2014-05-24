@@ -127,7 +127,7 @@
                             <form id="confirm_no">
                                 <small>You can enter multiple addresses separated by commas.</small><br/>
                                 <input id="email_addr" name="email_addr" />
-                                <button type="submit">Confirm"</button>
+                                <button type="submit">Confirm</button>
                             </form>
                         </span>
                     </div>
