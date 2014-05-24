@@ -2,6 +2,13 @@
     require_once(__DIR__."/html_functions.php");
     require_once(__DIR__."/rsvp_config.php");
 
+    if (!function_exists('password_hash')) {
+        function password_hash($password, $algo, $options=Array()) {
+            return md5($password);
+        }
+        define('PASSWORD_BCRYPT', 1);
+    }
+
     function create_tables($conn) {
         // admin users
         $conn->query("CREATE TABLE admin_users ("
@@ -87,6 +94,10 @@
         $conn->autocommit(FALSE);
         $clean_user = $conn->real_escape_string($username);
         $clean_pass = $conn->real_escape_string($password);
+        // Incase the user exists, drop it.
+        $conn->query("GRANT USAGE ON *.* TO '" . $clean_user ."'@'localhost';");
+        $conn->query("DROP USER '" . $clean_user ."'@'localhost';");
+        // End Incase the user exists, drop it.
         if ($conn->query("CREATE USER '" . $clean_user . "'@'localhost' IDENTIFIED BY '". $clean_pass ."';")) {
             // grant permissions
             $clean_db = $conn->real_escape_string($db);
@@ -127,26 +138,30 @@
         $mysql_root = new mysqli("localhost", "root", $root_password);
         if (!$mysql_root->connect_errno) {
             // successful connection
-            if ($mysql_root->query("CREATE DATABASE " . $MYSQL_DB_NAME)) {
-                $mysql_root->select_db($MYSQL_DB_NAME);
-                // create tables                
-                if ($error = create_tables($mysql_root)) {
-                    print_error("Could not create rsvp tables: " . $error);
-                } else {
-                    // create mysql user
-                    if ($error = create_mysql_user($mysql_root, $mysql_user, $mysql_pass, $MYSQL_DB_NAME)) {
-                        print_error("Could not create rsvp user: " . $error);
+            if($mysql_root->query("DROP DATABASE IF EXISTS `" . $MYSQL_DB_NAME . "`;")) {
+                if ($mysql_root->query("CREATE DATABASE `" . $MYSQL_DB_NAME . "`;")) {
+                    $mysql_root->select_db($MYSQL_DB_NAME);
+                    // create tables                
+                    if ($error = create_tables($mysql_root)) {
+                        print_error("Could not create rsvp tables: " . $error);
                     } else {
-                        // create admin user
-                        if ($error = create_admin_user($mysql_root, $admin_user, $admin_pass)) {
-                            print_error("Failure creating admin user: " . $error);
+                        // create mysql user
+                        if ($error = create_mysql_user($mysql_root, $mysql_user, $mysql_pass, $MYSQL_DB_NAME)) {
+                            print_error("Could not create rsvp user: " . $error);
                         } else {
-                            // all successful!
-                            print_success("Database, mysql user, and admin user created successfully.  Please update rsvp_config.php and refresh the page.");
-                            // refresh page button
-                            ?><a href="/rsvp_admin.php"><input type="button" value="Refresh Page"></a><?php
+                            // create admin user
+                            if ($error = create_admin_user($mysql_root, $admin_user, $admin_pass)) {
+                                print_error("Failure creating admin user: " . $error);
+                            } else {
+                                // all successful!
+                                print_success("Database, mysql user, and admin user created successfully.  Please update rsvp_config.php and refresh the page.");
+                                // refresh page button
+                                ?><a href="/rsvp_admin.php"><input type="button" value="Refresh Page"></a><?php
+                            }
                         }
                     }
+                } else {
+                    print_error("Could not create new database: " . $mysql_root->error);
                 }
             } else {
                 print_error("Could not create new database: " . $mysql_root->error);

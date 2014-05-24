@@ -9,7 +9,13 @@
     // get db connection
     require_once(__DIR__."/../../include/mysql.php");
     require_once(__DIR__."/../../include/rsvp_config.php");
-    $rsvp_conn->begin_transaction();
+
+   if (method_exists($conn, 'begin_transaction')) {
+        $rsvp_conn->begin_transaction();
+    } else {
+        $rsvp_conn->autocommit(FALSE);
+    }
+
     // get guests
     $stmt = $rsvp_conn->prepare("SELECT id FROM guests WHERE party_id = ?");
     $stmt->bind_param('i', $party_id);
