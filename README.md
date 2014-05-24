@@ -32,11 +32,16 @@ You can circumvent this by placing a .htaccess file in the www directory
 containing:
 
 ```
+Options +FollowSymlinks
 RewriteEngine on
+
+# always send 404 on missing favicon
+RewriteRule ^favicon.ico$ favicon.ico [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^([^/]+)$ /rsvp.php?k=$1 [B,L]
+RewriteRule ^([^/]+)$ rsvp.php?k=$1 [QSA,B,L]
 ```
 
 This will take your URL path and, assuming it does not reference a valid file,
