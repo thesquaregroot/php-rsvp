@@ -26,7 +26,7 @@
     <div id="check_identity">
         <strong>Hello, <?php print_party_names($rsvp_conn, $_SESSION['party_id']); ?>!</strong>
         <small>
-            (<a id="wrong_person_link" href="#">Not you?</a>)
+            (<a id="wrong_person_link" href="javascript:void(0)">Not you?</a>)
             <div id="wrong_person_instructions" style="display: none;">
                 Oh no!  Send us an email at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$WRONG_PERSON_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> and we'll figure it out.
             </div>
@@ -46,7 +46,7 @@
             }
         ?>
             <?=$THANK_YOU_HTML?>
-            <a href="#" id="rsvp_again_link">(need to make a change?)</a>
+            <a href="javascript:void(0)" id="rsvp_again_link">(need to make a change?)</a>
         </div>
         <!-- RSVP -->
         <?php
@@ -74,7 +74,7 @@
                 ?>
                 </ul>
                 <small>
-                    <a href="#" id="missing_persons_link">Missing someone?</a>
+                    <a href="javascript:void(0)" id="missing_persons_link">Missing someone?</a>
                     <div id="missing_persons_instructions" style="display: none;">Please email us at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$ADDITIONAL_GUEST_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> to request an additional guest.</div>
                 </small>
                 <p>Will anyone be able to make it?</p>
