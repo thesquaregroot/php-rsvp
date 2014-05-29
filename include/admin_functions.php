@@ -2,6 +2,12 @@
     require_once(__DIR__."/mysql.php");
     require_once(__DIR__."/rsvp_config.php");
 
+    if (!function_exists('password_hash')) {
+        function password_verify($password, $hash) {
+            return (md5($password) == $hash);
+        }
+    }
+
     // functions:
     //
     //  Login/Session:
@@ -66,7 +72,11 @@
 
     function add_party($conn, $nickname, $guests /* array */, $plus_one_count)
     {
-        $conn->begin_transaction();
+        if (method_exists($conn, 'begin_transaction')) {
+            $conn->begin_transaction();
+        } else {
+            $conn->autocommit(FALSE);
+        }
 
         $stmt = $conn->prepare("INSERT INTO parties (nickname) VALUES (?)");
         $stmt->bind_param('s', $nickname);
@@ -202,7 +212,11 @@
     }
 
     function randomize_keys($conn) {
-        $conn->begin_transaction();
+        if (method_exists($conn, 'begin_transaction')) {
+            $conn->begin_transaction();
+        } else {
+            $conn->autocommit(FALSE);
+        }
         // delete any non-user keys
         $result = $conn->query("DELETE FROM url_keys WHERE user_key = 0");
         if ($error = $conn->error) {
