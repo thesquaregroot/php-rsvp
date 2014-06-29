@@ -51,10 +51,11 @@
             <th>Party # / Nickname</th>
             <th colspan=3>Guests</th>
             <th>Total Attending</th>
+            <th>Comment</th>
             <th>URL Key</th>
         </tr>
         <?php
-        $result = $conn->query("SELECT parties.id, nickname, COUNT(guests.id) AS total, SUM(guests.response) AS attending, url_keys.value AS url_key FROM parties"
+        $result = $conn->query("SELECT parties.id, nickname, COUNT(guests.id) AS total, SUM(guests.response) AS attending, url_keys.value AS url_key, rsvp_comment FROM parties"
                                 . " INNER JOIN guests ON parties.id = guests.party_id"
                                 . " LEFT OUTER JOIN url_keys ON parties.id = url_keys.party_id"
                                 . " GROUP BY parties.id");
@@ -108,6 +109,7 @@
             <td><?=$meal?></td>
             <td><?=$response?></td>
             <td rowspan="<?=$guest_count?>"><?=$party['attending']?> / <?=$party['total']?></td>
+            <td rowspan="<?=$guest_count?>"><?=$party['rsvp_comment']?></td>
             <td rowspan="<?=$guest_count?>">
                 <?=$party['url_key']?>
                 <form method="post" action="#guests">

@@ -27,6 +27,7 @@
                     . " nickname VARCHAR(255) NULL,"
                     . " plus_ones INT DEFAULT 0,"
                     . " url_key VARCHAR(255) NULL,"
+                    . " rsvp_comment TEXT NULL,"
                     . " PRIMARY KEY (id)"
                     . ");");
         if ($conn->error) {

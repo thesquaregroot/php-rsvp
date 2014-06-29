@@ -9,7 +9,7 @@
     $WRONG_PERSON_EMAIL_SUBJECT = urlencode("Wedding RSVP - Wrong Person");
     $ADDITIONAL_GUEST_EMAIL_SUBJECT = urlencode("Wedding RSVP - Additional Guest");
 
-    $FINAL_RSVP_DATE = "2014-06-28";
+    $FINAL_RSVP_DATE = "9999-12-31";
     $LATE_RSVP_HTML = "<p>Sorry, no additional RSVPs are being accepted at this time.  Additional information can still be found below.</p>";
 
     $INCLUDE_MEAL_DESCRIPTIONS = false;

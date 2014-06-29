@@ -10,8 +10,9 @@ Features
 
 Implemented Features:
 - Parties with multiple guests
-- Meals, selected during RSVP process
-- Emails collected for sending updates parties
+- Meals selected during RSVP
+- Option for parties to leave a note during RSVP
+- Emails collected during RSVP for sending updates parties
 - Ability to delete guests, parties, and meals
 - Display of aggregate data (guests invited, total accepted, total per meal type)
 - Random generation of URL keys
@@ -19,6 +20,7 @@ Implemented Features:
 - Generation of URLs to distribute to potential guests
 - QR codes generated with RSVP URL (by default via qrencode binary: http://fukuchi.org/works/qrencode/index.html.en)
 - Confirmation/Thank-you email sent after RSVP
+- Set an final date for accepting RSVPs
 
 Planned Features:
 - Ability to edit guests, parties, and meals (can currently only add/delete)

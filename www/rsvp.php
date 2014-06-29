@@ -85,7 +85,7 @@
                         <h3>Yes! :-D</h3>
                         <div id="rsvp_yes">
                             <form id="confirm_yes">
-                            <?php
+                                <?php
                                 // pre-emptively get the set of meals
                                 $meals = get_meals($rsvp_conn);
                                 // get party members
@@ -113,7 +113,8 @@
                                     }
                                     ?></div><?php
                                 }
-                            ?>
+                                ?>
+                                <textarea class="rsvp_comment" name="rsvp_comment" placeholder="Leave us a note with your RSVP."></textarea>
                                 <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
                                 <span style="float: right;">
                                     <small>You can enter multiple addresses separated by commas.</small><br/>
@@ -125,14 +126,15 @@
                         <h3>No... :-(</h3>
                         <div id="rsvp_no">
                             <?=$RESPONSE_NO_HTML?>
-                            <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
-                            <span style="float: right;">
-                                <form id="confirm_no">
+                            <form id="confirm_no">
+                                <textarea class="rsvp_comment" name="rsvp_comment" placeholder="Let us know why you can't make it."></textarea>
+                                <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
+                                <span style="float: right;">
                                     <small>You can enter multiple addresses separated by commas.</small><br/>
                                     <input id="email_addr" name="email_addr" />
                                     <button type="submit">Confirm</button>
-                                </form>
-                            </span>
+                                </span>
+                            </form>
                         </div>
                     </div>
                 </div>

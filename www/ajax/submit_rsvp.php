@@ -10,7 +10,7 @@
     require_once(__DIR__."/../../include/mysql.php");
     require_once(__DIR__."/../../include/rsvp_config.php");
 
-   if (method_exists($conn, 'begin_transaction')) {
+   if (method_exists($rsvp_conn, 'begin_transaction')) {
         $rsvp_conn->begin_transaction();
     } else {
         $rsvp_conn->autocommit(FALSE);
@@ -71,6 +71,17 @@
             die('2');
         }
     }
+    // update party with rsvp comment (if any)
+    if (isset($_POST['rsvp_comment'])) {
+        $stmt = $rsvp_conn->prepare("UPDATE parties SET rsvp_comment = ? WHERE id = ?");
+        $stmt->bind_param('si', $_POST['rsvp_comment'], $party_id);
+        $stmt->execute();
+        if ($rsvp_conn->error) {
+            $rsvp_conn->rollback();
+            die('3');
+        }
+        $stmt->close();
+    }
     // add email address, if set
     if (isset($_POST['email_addr'])) {
         // delete any existing emails
@@ -87,7 +98,7 @@
             $stmt->execute();
             if ($rsvp_conn->error) {
                 $rsvp_conn->rollback();
-                die('3');
+                die('4');
             }
         }
         // all set, everything successful

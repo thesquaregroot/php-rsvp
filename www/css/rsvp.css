@@ -91,6 +91,11 @@ ul#party_list {
         background-color: rgba(255, 255, 000, 1);
 */
 }
+textarea.rsvp_comment {
+        min-width: 50%;
+        width: 500px;
+        max-width: 100%;
+}
 div[id$="_options"] {
         margin-left: 2em;
 }
