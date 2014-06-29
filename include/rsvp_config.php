@@ -9,6 +9,9 @@
     $WRONG_PERSON_EMAIL_SUBJECT = urlencode("Wedding RSVP - Wrong Person");
     $ADDITIONAL_GUEST_EMAIL_SUBJECT = urlencode("Wedding RSVP - Additional Guest");
 
+    $FINAL_RSVP_DATE = "2014-06-28";
+    $LATE_RSVP_HTML = "<p>Sorry, no additional RSVPs are being accepted at this time.  Additional information can still be found below.</p>";
+
     $INCLUDE_MEAL_DESCRIPTIONS = false;
 
     $RESPONSE_NO_HTML = "<p>Sorry you can't make it!  If you change your mind, please email us before August.</p>";
@@ -69,7 +72,7 @@
     
     $QR_LEVEL = 'L'; // valid values: L, M, Q, H
     $QR_VERSION = 1; // QR code version
-    $QR_SIZE = 3; // size of dot in pixels
+    $QR_SIZE = 2; // size of dot in pixels
 
     //$JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
     $JQUERY_LOCATION = "/js/jquery.min.js";

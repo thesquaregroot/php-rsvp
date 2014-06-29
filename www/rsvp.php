@@ -50,90 +50,96 @@
         </div>
         <!-- RSVP -->
         <?php
-        if ($_SESSION['responded']) {
-            ?><div id="rsvp_box" style="display: none;"><?php
+        if (strtotime('today') > strtotime($FINAL_RSVP_DATE)) {
+            ?><div id="rsvp_box" style="display: none"><?=$LATE_RSVP_HTML?></div><?php
         } else {
-            ?><div id="rsvp_box">
-                <p><button id="rsvp_button">Please RSVP Here</button></p><?php
-        }
-        ?>
-            <div id="rsvp_status" style="display: none;">
-                <hr/>
-                <p>We have your party listed as:</p>
-                <ul id="party_list">
-                <?php
-                    $names = get_party_names($rsvp_conn, $_SESSION['party_id']);
-                    $plus_ones = get_plus_ones($rsvp_conn, $_SESSION['party_id']);
-                    
-                    foreach ($names as $name) {
-                        echo "<li>$name</li>";
-                    }
-                    if ($plus_ones > 0) {
-                        echo "<li>+$plus_ones</li>";
-                    }
-                ?>
-                </ul>
-                <small>
-                    <a href="javascript:void(0)" id="missing_persons_link">Missing someone?</a>
-                    <div id="missing_persons_instructions" style="display: none;">Please email us at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$ADDITIONAL_GUEST_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> to request an additional guest.</div>
-                </small>
-                <p>Will anyone be able to make it?</p>
-                <div class="accordion">
-                    <h3>Yes! :-D</h3>
-                    <div id="rsvp_yes">
-                        <form id="confirm_yes">
-                        <?php
-                            // pre-emptively get the set of meals
-                            $meals = get_meals($rsvp_conn);
-                            // get party members
-                            $stmt = $rsvp_conn->prepare("SELECT id, name, is_plus_one FROM guests WHERE party_id = ? ORDER BY is_plus_one ASC");
-                            $stmt->bind_param('s', $_SESSION['party_id']);
-                            $stmt->execute();
-                            $stmt->bind_result($id, $name, $is_plus_one);
-                            while ($stmt->fetch()) {
-                                // check box
-                                ?><input type="checkbox" name="guest<?=$id?>" id="guest<?=$id?>" /><?php
-                                // name or text box
-                                if ($is_plus_one) {
-                                    ?><input type="text" name="name_guest<?=$id?>" id="name_guest<?=$id?>" placeholder="+1 (full name)" /><br/><?php
-                                } else {
-                                    ?><label for="guest<?=$id?>"><?=$name?></label><br/><?php
+            if ($_SESSION['responded']) {
+                ?><div id="rsvp_box" style="display: none;"><?php
+            } else {
+                ?><div id="rsvp_box">
+                    <p><button id="rsvp_button">Please RSVP Here</button></p><?php
+            }
+            ?>
+                <div id="rsvp_status" style="display: none;">
+                    <hr/>
+                    <p>We have your party listed as:</p>
+                    <ul id="party_list">
+                    <?php
+                        $names = get_party_names($rsvp_conn, $_SESSION['party_id']);
+                        $plus_ones = get_plus_ones($rsvp_conn, $_SESSION['party_id']);
+                        
+                        foreach ($names as $name) {
+                            echo "<li>$name</li>";
+                        }
+                        if ($plus_ones > 0) {
+                            echo "<li>+$plus_ones</li>";
+                        }
+                    ?>
+                    </ul>
+                    <small>
+                        <a href="javascript:void(0)" id="missing_persons_link">Missing someone?</a>
+                        <div id="missing_persons_instructions" style="display: none;">Please email us at <a href="mailto:<?=$HOST_CONTACT_EMAIL?>?Subject=<?=$ADDITIONAL_GUEST_EMAIL_SUBJECT?>"><?=$HOST_CONTACT_EMAIL?></a> to request an additional guest.</div>
+                    </small>
+                    <p>Will anyone be able to make it?</p>
+                    <div class="accordion">
+                        <h3>Yes! :-D</h3>
+                        <div id="rsvp_yes">
+                            <form id="confirm_yes">
+                            <?php
+                                // pre-emptively get the set of meals
+                                $meals = get_meals($rsvp_conn);
+                                // get party members
+                                $stmt = $rsvp_conn->prepare("SELECT id, name, is_plus_one FROM guests WHERE party_id = ? ORDER BY is_plus_one ASC");
+                                $stmt->bind_param('s', $_SESSION['party_id']);
+                                $stmt->execute();
+                                $stmt->bind_result($id, $name, $is_plus_one);
+                                while ($stmt->fetch()) {
+                                    // check box
+                                    ?><input type="checkbox" name="guest<?=$id?>" id="guest<?=$id?>" /><?php
+                                    // name or text box
+                                    if ($is_plus_one) {
+                                        ?><input type="text" name="name_guest<?=$id?>" id="name_guest<?=$id?>" placeholder="+1 (full name)" /><br/><?php
+                                    } else {
+                                        ?><label for="guest<?=$id?>"><?=$name?></label><br/><?php
+                                    }
+                                    // box with meal options
+                                    ?><div id="guest<?=$id?>_options" style="display: none;"><?php
+                                    foreach ($meals as $meal) {
+                                        $description = addcslashes(htmlspecialchars($meal['description']), "\"");
+                                        ?>
+                                        <input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" title="<?=$description?>" value="<?=$meal['id']?>" />
+                                        <label for="guest<?=$id?>_meal<?=$meal['id']?>" title="<?=$description?>"><?=$meal['name']?> [<i><?=$description?></i>]</label><br/>
+                                        <?php
+                                    }
+                                    ?></div><?php
                                 }
-                                // box with meal options
-                                ?><div id="guest<?=$id?>_options" style="display: none;"><?php
-                                foreach ($meals as $meal) {
-                                    $description = addcslashes(htmlspecialchars($meal['description']), "\"");
-                                    ?>
-                                    <input type="radio" id="guest<?=$id?>_meal<?=$meal['id']?>" name="guest<?=$id?>_meal" title="<?=$description?>" value="<?=$meal['id']?>" />
-                                    <label for="guest<?=$id?>_meal<?=$meal['id']?>" title="<?=$description?>"><?=$meal['name']?> [<i><?=$description?></i>]</label><br/>
-                                    <?php
-                                }
-                                ?></div><?php
-                            }
-                        ?>
-                            <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
-                            <span style="float: right;">
-                                <small>You can enter multiple addresses separated by commas.</small><br/>
-                                <input id="email_addr" name="email_addr" />
-                                <button type="submit">Confirm</button>
-                            </span>
-                        </form>
-                    </div>
-                    <h3>No... :-(</h3>
-                    <div id="rsvp_no">
-                        <?=$RESPONSE_NO_HTML?>
-                        <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
-                        <span style="float: right;">
-                            <form id="confirm_no">
-                                <small>You can enter multiple addresses separated by commas.</small><br/>
-                                <input id="email_addr" name="email_addr" />
-                                <button type="submit">Confirm</button>
+                            ?>
+                                <p style="text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
+                                <span style="float: right;">
+                                    <small>You can enter multiple addresses separated by commas.</small><br/>
+                                    <input id="email_addr" name="email_addr" />
+                                    <button type="submit">Confirm</button>
+                                </span>
                             </form>
-                        </span>
+                        </div>
+                        <h3>No... :-(</h3>
+                        <div id="rsvp_no">
+                            <?=$RESPONSE_NO_HTML?>
+                            <p style="margin-top: 2em; text-align: center;">Also, so that we can send you any updates, please provide your email address:</p>
+                            <span style="float: right;">
+                                <form id="confirm_no">
+                                    <small>You can enter multiple addresses separated by commas.</small><br/>
+                                    <input id="email_addr" name="email_addr" />
+                                    <button type="submit">Confirm</button>
+                                </form>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php
+        }
+        ?>
         <!-- /RSVP -->
     </div>
     <!-- Additional Details -->
