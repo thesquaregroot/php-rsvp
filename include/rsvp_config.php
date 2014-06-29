@@ -46,7 +46,7 @@
         $content .= "<p>Thank you for your RSVP!  We have:</p>";
         $content .= "<p><ul>";
         // get guests
-        $stmt = $conn->prepare("SELECT guests.name, CASE WHEN guests.response = 1 THEN 'attending' ELSE 'not attending' END FROM guests WHERE party_id = ? AND name <> ''");
+        $stmt = $conn->prepare("SELECT guests.name, CASE WHEN guests.response = 1 THEN CONCAT('attending - ', meals.name) ELSE 'not attending' END FROM guests LEFT OUTER JOIN meals ON guests.meal_id = meals.id WHERE guests.party_id = ? AND guests.name <> ''");
         $stmt->bind_param('i', $party_id);
         $guests = $stmt->execute();
         $stmt->bind_result($guest_name, $guest_status);
@@ -54,6 +54,17 @@
             $content .= "<li><b>$guest_name</b> - <i>$guest_status</i></li>";
         }
         $content .= "</ul></p>";
+        $stmt->close();
+        // add rsvp comment
+        $stmt = $conn->prepare("SELECT rsvp_comment FROM parties WHERE id = ?");
+        $stmt->bind_param('i', $party_id);
+        $party = $stmt->execute();
+        $stmt->bind_result($rsvp_comment);
+        if ($stmt->fetch()) {
+            $content .= "<p>Comment: $rsvp_comment</p>";
+        }
+        $stmt->close();
+        // final text
         $content .= "<p>If anything changes feel free to go back to <a href=\"" . htmlspecialchars($BASE_RSVP_URL . get_url_key($conn, $party_id)) . "\">your link</a> and update the information.</p>";
         $content .= "<p>If you have any questions please reply to this email.</p>";
         $content .= "<p>Thank you! :)</p>";
