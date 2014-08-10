@@ -191,10 +191,18 @@
             <div>
                 <?php print_rsvp_urls_table($rsvp_conn); ?>
             </div>
-            <!--h3>Contact Guests</h3>
+            <h3>Contact Guests</h3>
             <div>
-                Not yet implemented...
-            </div-->
+                <p>The following can be used to send a BCC to your guests that supplied their email address.</p>
+                <div class="closed_accordion">
+                    <h3>All Guests</h3>
+                    <div><?=get_email_string($rsvp_conn)?></div>
+                    <h3>Replied Yes</h3>
+                    <div><?=get_email_string($rsvp_conn, true)?></div>
+                    <h3>Replied No</h3>
+                    <div><?=get_email_string($rsvp_conn, false)?></div>
+                </div>
+            </div>
 <?php } ?>
         </div>
     </div>

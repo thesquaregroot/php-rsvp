@@ -27,6 +27,9 @@
     //      delete_meal(conn, meal_id)
     //      delete_url_key(conn, url_key_id)
     //
+    //  Emails:
+    //      get_email_string(conn, response_type = null) -> email_string
+    //
     //  QR Codes:
     //      qrcode(data, filename)
 
@@ -308,6 +311,28 @@
                 print_error("Could not create QR code.  Please reload to try again.");
             }
         }
+    }
+
+    function get_email_string($conn, $response_type = null) {
+        // different query by response type
+        static $FILTER_BY_RESPONSE_SQL = "SELECT email, response FROM party_emails INNER JOIN (SELECT party_id, MAX(response) response FROM guests GROUP BY party_id) A ON A.party_id = party_emails.party_id WHERE COALESCE(TRIM(email), '') != '' and A.response = %b ORDER BY email;";
+        if (is_null($response_type)) {
+            // all guests
+            $result = $conn->query("SELECT email FROM party_emails WHERE COALESCE(TRIM(email), '') != '' ORDER BY email");
+        } else if ($response_type) {
+            // guests that replied YES
+            $result = $conn->query(sprintf($FILTER_BY_RESPONSE_SQL, 1));
+        } else {
+            // guests that replied NO
+            $result = $conn->query(sprintf($FILTER_BY_RESPONSE_SQL, 0));
+        }
+        $str = "";
+        $separator = "; ";
+        // build email string
+        while ($email = $result->fetch_assoc()) {
+            $str .= $email['email'] . $separator;
+        }
+        return $str;
     }
 
 ?>

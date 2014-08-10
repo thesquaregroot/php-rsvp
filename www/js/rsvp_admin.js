@@ -9,6 +9,7 @@ function jQueryUI() {
         '#urls' : 3
     };
     $('.accordion').accordion({ collapsible: true, active: hashes[window.location.hash], heightStyle: "content"});
+    $('.closed_accordion').accordion({ collapsible: true, active: false, heightStyle: "content"});
     $('input[type=button]:not(.add_entry):not(.remove_entry), input[type=submit]:not(.add_entry):not(.remove_entry), button').button();
     $('.spinner').spinner();
     

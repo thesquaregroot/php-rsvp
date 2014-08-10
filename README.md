@@ -21,6 +21,7 @@ Implemented Features:
 - QR codes generated with RSVP URL (by default via qrencode binary: http://fukuchi.org/works/qrencode/index.html.en)
 - Confirmation/Thank-you email sent after RSVP
 - Set an final date for accepting RSVPs
+- Get lists of email addresses of guests that have replied
 
 Planned Features:
 - Ability to edit guests, parties, and meals (can currently only add/delete)
