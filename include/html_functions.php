@@ -31,7 +31,8 @@
                 <td>
                     <?=$meal['name']?>
                     <small style="float: right;">
-                        <form method="post" action="#meals"><button class="delete_button" name="delete_meal" value="<?=$meal['id']?>">delete</button></form>
+                        <button value="<?=$meal['id']?>" class="edit_button edit_meal">edit</button>
+                        <form method="post" action="#meals" class="button_form"><button class="delete_button" name="delete_meal" value="<?=$meal['id']?>">delete</button></form>
                     </small>
                 </td>
                 <td><?=$meal['description']?></td>
@@ -96,14 +97,15 @@
             <td rowspan="<?=$guest_count?>">
                 <?=$party['id']?> / <?=$party['nickname']?>
                 <small style="float: right;">
-                    <!--button value="<?=$party['id']?>" class="edit_button edit_party">edit</button-->
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_party" value="<?=$party['id']?>">delete</button></form>
+                    <button value="<?=$party['id']?>" class="edit_button edit_party">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_party" value="<?=$party['id']?>">delete</button></form>
                 </small>
             </td>
             <td>
                 <?=$guest_name?>
                 <small style="float: right;">
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                    <button value="<?=$guest_id?>" class="edit_button edit_guest">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
                 </small>
             </td>
             <td><?=$meal?></td>
@@ -112,9 +114,9 @@
             <td rowspan="<?=$guest_count?>"><?=$party['rsvp_comment']?></td>
             <td rowspan="<?=$guest_count?>">
                 <?=$party['url_key']?>
-                <form method="post" action="#guests">
-                    <input type="hidden" name="new_key_party_id" value="<?=$party['id']?>"/>
-                    <small><small><input type="submit" value="New Key"/></small></small>
+                <form method="post" action="#guests" class="button_form">
+                    <input type="hidden" name="new_key_party_id" value="<?=$party['id']?>"/><br/>
+                    <small><small><input name="new_url_key" type="submit" value="New Key"/></small></small>
                 </form>
             </td>
         </tr>
@@ -125,7 +127,8 @@
             <td>
                 <?=$guest_name?>
                 <small style="float: right;">
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                    <button value="<?=$guest_id?>" class="edit_button edit_guest">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
                 </small>
             </td>
             <td><?=$meal?></td>
@@ -173,7 +176,7 @@
                 <td>
                     <?=$key['value']?>
                     <small style="float: right;">
-                        <form method="post" action="#keys"><button class="delete_button" name="delete_url_key" value="<?=$key['id']?>">delete</button></form>
+                        <form method="post" action="#keys" class="button_form"><button class="delete_button" name="delete_url_key" value="<?=$key['id']?>">delete</button></form>
                     </small>
                 </td>
             </tr>

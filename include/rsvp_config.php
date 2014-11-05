@@ -85,13 +85,15 @@
     $QR_VERSION = 1; // QR code version
     $QR_SIZE = 2; // size of dot in pixels
 
-    //$JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
-    $JQUERY_LOCATION = "/js/jquery.min.js";
-    $JQUERY_UI_THEME = "flick";
+    $JQUERY_VERSION = "1.11.0";
+    $JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/${JQUERY_VERSION}/jquery.min.js";
+    //$JQUERY_LOCATION = "/js/jquery.min.js";
 
-    //$JQUERY_UI_JS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
-    //$JQUERY_UI_CSS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/${JQUERY_UI_THEME}/jquery-ui.css";
-    $JQUERY_UI_JS_LOCATION = "/js/jquery-ui.min.js";
-    $JQUERY_UI_CSS_LOCATION = "/css/jquery-ui.min.css";
+    $JQUERY_UI_THEME = "flick";
+    $JQUERY_UI_VERSION = "1.10.4";
+    $JQUERY_UI_JS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/${JQUERY_UI_VERSION}/jquery-ui.min.js";
+    //$JQUERY_UI_JS_LOCATION = "/js/jquery-ui.min.js";
+    $JQUERY_UI_CSS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/${JQUERY_UI_VERSION}/themes/${JQUERY_UI_THEME}/jquery-ui.css";
+    //$JQUERY_UI_CSS_LOCATION = "/css/jquery-ui.min.css";
 
 ?>

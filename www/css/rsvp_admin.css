@@ -79,3 +79,6 @@ body {
 .delete_button {
         color: #A00 !important;
 }
+.button_form {
+        display: inline;
+}

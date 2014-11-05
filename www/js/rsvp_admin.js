@@ -90,9 +90,15 @@ $(function() {
             $(this).parent("div").remove();
         });
     });
-    //$('.edit_party').click(function() {
-    //    // TODO
-    //});
+    $('.edit_party').click(function() {
+        // TODO
+    });
+    $('.edit_guest').click(function() {
+        // TODO
+    });
+    $('.edit_meal').click(function() {
+        // TODO
+    });
     $('[name="delete_party"]').click(function() {
         if (!confirm("Are you sure you want to delete party " + $(this).attr('value') + "?")) {
             event.preventDefault();
@@ -110,6 +116,11 @@ $(function() {
     });
     $('[name="delete_url_key"]').click(function() {
         if (!confirm("Are you sure you want to delete URL key " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
+    $('[name="new_url_key"]').click(function() {
+        if (!confirm("Are you sure you want to assign a URL key other than '" + $(this).attr('value') + "'?")) {
             event.preventDefault();
         }
     });
