@@ -91,13 +91,25 @@ $(function() {
         });
     });
     $('.edit_party').click(function() {
-        // TODO
+        var id = $(this).val();
+        $('#party_id').val(id);
+        $('#edit_party_dialog').dialog({
+            title: 'Editing Party ' + id
+        });
     });
     $('.edit_guest').click(function() {
-        // TODO
+        var id = $(this).val();
+        $('#guest_id').val(id);
+        $('#edit_guest_dialog').dialog({
+            title: 'Editing Guest ' + id
+        });
     });
     $('.edit_meal').click(function() {
-        // TODO
+        var id = $(this).val();
+        $('#meal_id').val(id);
+        $('#edit_meal_dialog').dialog({
+            title: 'Editing Meal ' + id
+        });
     });
     $('[name="delete_party"]').click(function() {
         if (!confirm("Are you sure you want to delete party " + $(this).attr('value') + "?")) {

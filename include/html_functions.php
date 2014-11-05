@@ -41,7 +41,24 @@
             <?php
             }
         ?>
-        </table>
+    </table>
+    <!-- edit party dialog -->
+    <div id="edit_meal_dialog" class="dialog_form">
+        <form method="post" action="#meals">
+            <fieldset>
+                <input type="hidden" name="meal_id"/>
+                <div>
+                    <label for="new_meal_name">Name:</label>
+                    <input type="text" id="new_meal_name" name="new_meal_name"/>
+                </div>
+                <div>
+                    <label for="new_description">Description:</label>
+                    <textarea id="new_description" name="new_description"></textarea>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
     <?php
     }
 
@@ -161,6 +178,54 @@
         }
         ?>
     </table>
+    <!-- edit party dialog -->
+    <div id="edit_party_dialog" class="dialog_form">
+        <form method="post" action="#guests">
+            <fieldset>
+                <input type="hidden" name="party_id"/>
+                <div>
+                    <label for="new_nickname">Nickname:</label>
+                    <input type="text" id="new_nickname" name="new_nickname"/>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
+    <!-- edit guest dialog -->
+    <div id="edit_guest_dialog" class="dialog_form">
+        <form method="post" action="#guests">
+            <fieldset>
+                <input type="hidden" name="party_id"/>
+                <div>
+                    <label for="new_name">Name:</label>
+                    <input type="text" id="new_name" name="new_name"/>
+                </div>
+                <div>
+                    <label for="attending">Attending:</label>
+                    <select id="attending" name="attending">
+                        <option value="">[Blank]</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="new_meal">Meal:</label>
+                    <select id="new_meal" name="new_meal">
+                        <option value="">[Blank]</option>
+                    <?php
+                        $result = $conn->query("SELECT id, name FROM meals;");
+                        while ($meal = $result->fetch_assoc()) {
+                        ?>
+                            <option value="<?=$meal['id']?>"><?=$meal['name']?></option>
+                        <?php
+                        }
+                    ?>
+                    </select>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
     <?php
     }
 

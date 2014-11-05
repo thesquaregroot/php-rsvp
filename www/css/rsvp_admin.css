@@ -82,3 +82,6 @@ body {
 .button_form {
         display: inline;
 }
+.dialog_form {
+        display: none;
+}
