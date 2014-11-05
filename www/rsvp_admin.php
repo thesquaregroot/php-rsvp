@@ -78,7 +78,7 @@
                 </form>
             </div>
 <?php } else { ?>
-            <h3>Add/Edit Parties/Guests</h3>
+            <h3>Parties/Guests</h3>
             <div>
                 <?php
                     // handle post party
@@ -135,7 +135,7 @@
                     print_party_table($rsvp_conn);
                 ?>
             </div>
-            <h3>Add/Edit Meal Options</h3>
+            <h3>Meal Options</h3>
             <div>
                 <?php
                     // handle post meals
@@ -164,7 +164,7 @@
                     print_meal_table($rsvp_conn);
                 ?>
             </div>
-            <h3>Manage URL Keys</h3>
+            <h3>URL Keys</h3>
             <div>
                 <?php
                     if (isset($_POST['mass_url_keys'])) {
