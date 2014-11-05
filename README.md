@@ -27,6 +27,33 @@ Planned Features:
 - Ability to edit guests, parties, and meals (can currently only add/delete)
 - Google Calendar invitations sent with confirmation email
 
+Dependancies & Installation
+---------------------------
+php-rsvp depends on:
+
+- apache/httpd
+- php5 (required: >=5.0, recommended: >=5.5)
+- mysql
+- jQuery
+- jQuery-UI
+
+It is recommended that you have apache, php5, and mysql working together prior to starting the installation.
+
+Download the package to your destination of choosing and set the document root to to the `www/` directory in the project.  This will ensure that files containing sensitive information cannot be accessed by apache.
+
+To start the installation navigate to `rsvp_admin.php` in order to set up the database.  As you will necessisarily
+be supplying sensitive information in order to create the required schema it is recommended you perform this step
+on the local network of the server you are installing this on or with an SSL encrypted connection.
+
+At this page you will create the schema/tables needed, an account to access the database, and an initial admin
+account.  After submitting the form you will hopefully see a success message and be instructed to add the database
+password to the `include/rsvp_config.php` file.  This file is where much, if not all, of the customization of the
+website should occur.  Inspect this file, secure it as necessary, add the password, and save it.
+
+With the setup complete you should be able to log in to the admin page.  However, at this point you should download
+your preferred versions of `jQuery` and `jQuery-UI` and install them into `www/js/` and `/www/css/`.  At this point
+your should be ready to start configuring your event (in `include/rsvp_config.php`) and using the system.
+
 Additional possibilities
 ------------------------
 The "rsvp.php?k=" part of the URL isn't the most attrative.
