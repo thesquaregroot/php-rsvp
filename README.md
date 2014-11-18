@@ -9,11 +9,11 @@ Features
 --------
 
 Implemented Features:
-- Parties with multiple guests
-- Meals selected during RSVP
+- Add parties with multiple guests
+- Add meals to be selected during RSVP
 - Option for parties to leave a note during RSVP
 - Emails collected during RSVP for sending updates parties
-- Ability to delete guests, parties, and meals
+- Ability to edit and delete guests, parties, and meals
 - Display of aggregate data (guests invited, total accepted, total per meal type)
 - Random generation of URL keys
 - Ability to supply preferred URL keys
@@ -24,7 +24,6 @@ Implemented Features:
 - Get lists of email addresses of guests that have replied
 
 Planned Features:
-- Ability to edit guests, parties, and meals (can currently only add/delete)
 - Google Calendar invitations sent with confirmation email
 
 Dependancies & Installation
