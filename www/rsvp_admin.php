@@ -93,6 +93,9 @@
                             add_party($rsvp_conn, $_POST['nickname'], $guests, $_POST['plus_ones']);
                         }
                     }
+                    if (isset($_POST['party_id'])) {
+                        update_party($rsvp_conn, $_POST['party_id'], $_POST['new_nickname']);
+                    }
                     // handle new key
                     if (isset($_POST['new_key_party_id'])) {
                         if ($error = set_url_key($rsvp_conn, $_POST['new_key_party_id'])) {
@@ -124,6 +127,9 @@
                     </table>
                 </form>
                 <?php
+                    if (isset($_POST['guest_id'])) {
+                        update_guest($rsvp_conn, $_POST['guest_id'], $_POST['new_name'], $_POST['new_meal_id'], $_POST['attending']);
+                    }
                     if (isset($_POST['delete_party'])) {
                         $party_id = $_POST['delete_party'];
                         delete_party($rsvp_conn, $party_id);
@@ -157,6 +163,9 @@
                     <input type="submit" />
                 </form>
                 <?php
+                    if (isset($_POST['meal_id'])) {
+                        update_meal($rsvp_conn, $_POST['meal_id'], $_POST['new_meal_name'], $_POST['new_description']);
+                    }
                     if (isset($_POST['delete_meal'])) {
                         $meal_id = $_POST['delete_meal'];
                         delete_meal($rsvp_conn, $meal_id);

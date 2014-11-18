@@ -92,23 +92,35 @@ $(function() {
     });
     $('.edit_party').click(function() {
         var id = $(this).val();
-        $('#party_id').val(id);
-        $('#edit_party_dialog').dialog({
-            title: 'Editing Party ' + id
+        $.getJSON('/ajax/admin/party.php?party_id=' + id, function(data) {
+            $('#party_id').val(id);
+            $('#new_nickname').val(data.nickname);
+            $('#edit_party_dialog').dialog({
+                title: 'Editing Party ' + id
+            });
         });
     });
     $('.edit_guest').click(function() {
         var id = $(this).val();
-        $('#guest_id').val(id);
-        $('#edit_guest_dialog').dialog({
-            title: 'Editing Guest ' + id
+        $.getJSON('/ajax/admin/guest.php?guest_id=' + id, function(data) {
+            $('#guest_id').val(id);
+            $('#new_name').val(data.name);
+            $('#attending').val(data.response);
+            $('#new_meal_id').val(data.meal_id);
+            $('#edit_guest_dialog').dialog({
+                title: 'Editing Guest ' + id
+            });
         });
     });
     $('.edit_meal').click(function() {
         var id = $(this).val();
-        $('#meal_id').val(id);
-        $('#edit_meal_dialog').dialog({
-            title: 'Editing Meal ' + id
+        $.getJSON('/ajax/admin/meal.php?meal_id=' + id, function(data) {
+            $('#meal_id').val(id);
+            $('#new_meal_name').val(data.name);
+            $('#new_description').val(data.description);
+            $('#edit_meal_dialog').dialog({
+                title: 'Editing Meal ' + id
+            });
         });
     });
     $('[name="delete_party"]').click(function() {

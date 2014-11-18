@@ -20,7 +20,7 @@
     $THANK_YOU_HTML = "<p>&hearts; Thank you for your RSVP!</p>";
 
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
-    
+
     // url for rsvp-ing, key should go at the end
     $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/rsvp.php?k=';
     // if using .htaccess to avoid 'rsvp.php?k=' piece
@@ -29,7 +29,7 @@
     // switch to false to force users to live out their sessions
     // when set to true (default), a user can access multiple URLs back-to-back
     $ALLOW_CHANGE_OF_PARTY = true;
-    
+
     // confirmation emails
     $ALWAYS_SEND_CONFIRMATION_EMAIL = true;
     // confirmation email headers
@@ -77,10 +77,12 @@
     // update to whatever you like, especially if you may have multiple events
     $MYSQL_DB_NAME = "rsvp";
 
+    $DEFAULT_SESSION_TIMEOUT = 86400; // one day
+
     $JS_DIR = "/js";
     $CSS_DIR = "/css";
     $QR_DIR = "/qrcode";
-    
+
     $QR_LEVEL = 'L'; // valid values: L, M, Q, H
     $QR_VERSION = 1; // QR code version
     $QR_SIZE = 2; // size of dot in pixels

@@ -42,11 +42,11 @@
             }
         ?>
     </table>
-    <!-- edit party dialog -->
+    <!-- edit meal dialog -->
     <div id="edit_meal_dialog" class="dialog_form">
         <form method="post" action="#meals">
             <fieldset>
-                <input type="hidden" name="meal_id"/>
+                <input type="hidden" name="meal_id" id="meal_id"/>
                 <div>
                     <label for="new_meal_name">Name:</label>
                     <input type="text" id="new_meal_name" name="new_meal_name"/>
@@ -182,7 +182,7 @@
     <div id="edit_party_dialog" class="dialog_form">
         <form method="post" action="#guests">
             <fieldset>
-                <input type="hidden" name="party_id"/>
+                <input type="hidden" name="party_id" id="party_id"/>
                 <div>
                     <label for="new_nickname">Nickname:</label>
                     <input type="text" id="new_nickname" name="new_nickname"/>
@@ -195,7 +195,7 @@
     <div id="edit_guest_dialog" class="dialog_form">
         <form method="post" action="#guests">
             <fieldset>
-                <input type="hidden" name="party_id"/>
+                <input type="hidden" name="guest_id" id="guest_id"/>
                 <div>
                     <label for="new_name">Name:</label>
                     <input type="text" id="new_name" name="new_name"/>
@@ -209,8 +209,8 @@
                     </select>
                 </div>
                 <div>
-                    <label for="new_meal">Meal:</label>
-                    <select id="new_meal" name="new_meal">
+                    <label for="new_meal_id">Meal:</label>
+                    <select id="new_meal_id" name="new_meal_id">
                         <option value="">[Blank]</option>
                     <?php
                         $result = $conn->query("SELECT id, name FROM meals;");

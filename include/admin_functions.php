@@ -22,6 +22,9 @@
     //      randomize_keys(conn) -> error
     //
     //  Editing/Deleting Entities:
+    //      update_party(conn, party_id, new_nickname)
+    //      update_guest(conn, guest_id, new_name, new_meal_id, attending)
+    //      update_meal(conn, meal_id, new_name, new_description)
     //      delete_party(conn, party_id)
     //      delete_guest(conn, guest_id)
     //      delete_meal(conn, meal_id)
@@ -92,7 +95,7 @@
         $stmt->close();
 
         $party_id = $conn->insert_id;
-        
+
         // create url key
         if ($error = set_url_key($conn, $party_id)) {
             print_error("Could not set key for party " . $party_id . ": " . $error);
@@ -112,7 +115,7 @@
             }
         }
         $stmt->close();
-        
+
         // add plus ones
         $stmt = $conn->prepare("INSERT INTO guests (party_id, is_plus_one) VALUES (?, 1)");
         $stmt->bind_param('i', $party_id);
@@ -130,7 +133,7 @@
         // all done
         $conn->commit();
     }
-    
+
     // add meals
     function add_meal($conn, $name, $description) {
         $stmt = $conn->prepare("INSERT INTO meals (name, description) VALUES (?, ?)");
@@ -167,7 +170,7 @@
                     $stmt->bind_param('si', $url_key, $party_id);
                     $stmt->execute();
                 }
-                // determine if insert/update was successful 
+                // determine if insert/update was successful
                 if ($conn->error) {
                     $key_set = false;
                 } else {
@@ -175,7 +178,7 @@
                 }
             }
         } while (!$key_set && ($attempt++ < $max_attempts));
-        
+
         if ($attempt >= $max_attempts) {
             // too many attempts
             return "Max attempts failed for creating a unique key.";
@@ -245,6 +248,41 @@
         return null;
     }
 
+    function update_party($conn, $party_id, $new_nickname) {
+        $stmt = $conn->prepare("UPDATE parties SET nickname = ? WHERE id = ?");
+        $stmt->bind_param('si', $new_nickname, $party_id);
+        if ($stmt->execute()) {
+            print_success("Party $party_id renamed $new_nickname.");
+        } else {
+            print_error("Could not updated party $party_id: " . $stmt->error);
+        }
+    }
+
+    function update_guest($conn, $guest_id, $new_name, $new_meal_id, $attending) {
+        $response = $attending;
+        // ensure that response is null if not set
+        if ($attending === "") {
+            $response = NULL;
+        }
+        $stmt = $conn->prepare("UPDATE guests SET name = ?, meal_id = ?, response = ? WHERE id = ?");
+        $stmt->bind_param('siii', $new_name, $new_meal_id, $response, $guest_id);
+        if ($stmt->execute()) {
+            print_success("Guest $guest_id updated.");
+        } else {
+            print_error("Could not update guest $guest_id: " . $stmt->error);
+        }
+    }
+
+    function update_meal($conn, $meal_id, $new_name, $new_description) {
+        $stmt = $conn->prepare("UPDATE meals SET name = ?, description = ? WHERE id = ?");
+        $stmt->bind_param('ssi', $new_name, $new_description, $meal_id);
+        if ($stmt->execute()) {
+            print_success("Meal $meal_id updated.");
+        } else {
+            print_error("Could not update meal $meal_id: " . $stmt->error);
+        }
+    }
+
     function delete_party($conn, $party_id) {
         $stmt = $conn->prepare("DELETE FROM guests WHERE party_id = ?");
         $stmt->bind_param('i', $party_id);
@@ -296,10 +334,10 @@
         global $QR_LEVEL;
         global $QR_VERSION;
         global $QR_SIZE;
-        
+
         $file_path = $QR_DIR."/".urlencode(urlencode($filename)).".png";
         $abs_file_path = realpath(__DIR__) . "/../www" . $QR_DIR."/".urlencode($filename).".png";
-        
+
         if (file_exists($abs_file_path)) {
             ?><img src="<?=$file_path?>" /><?php
         } else {
