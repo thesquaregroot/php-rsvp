@@ -31,7 +31,8 @@
                 <td>
                     <?=$meal['name']?>
                     <small style="float: right;">
-                        <form method="post" action="#meals"><button class="delete_button" name="delete_meal" value="<?=$meal['id']?>">delete</button></form>
+                        <button value="<?=$meal['id']?>" class="edit_button edit_meal">edit</button>
+                        <form method="post" action="#meals" class="button_form"><button class="delete_button" name="delete_meal" value="<?=$meal['id']?>">delete</button></form>
                     </small>
                 </td>
                 <td><?=$meal['description']?></td>
@@ -40,7 +41,24 @@
             <?php
             }
         ?>
-        </table>
+    </table>
+    <!-- edit meal dialog -->
+    <div id="edit_meal_dialog" class="dialog_form">
+        <form method="post" action="#meals">
+            <fieldset>
+                <input type="hidden" name="meal_id" id="meal_id"/>
+                <div>
+                    <label for="new_meal_name">Name:</label>
+                    <input type="text" id="new_meal_name" name="new_meal_name"/>
+                </div>
+                <div>
+                    <label for="new_description">Description:</label>
+                    <textarea id="new_description" name="new_description"></textarea>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
     <?php
     }
 
@@ -96,14 +114,15 @@
             <td rowspan="<?=$guest_count?>">
                 <?=$party['id']?> / <?=$party['nickname']?>
                 <small style="float: right;">
-                    <!--button value="<?=$party['id']?>" class="edit_button edit_party">edit</button-->
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_party" value="<?=$party['id']?>">delete</button></form>
+                    <button value="<?=$party['id']?>" class="edit_button edit_party">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_party" value="<?=$party['id']?>">delete</button></form>
                 </small>
             </td>
             <td>
                 <?=$guest_name?>
                 <small style="float: right;">
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                    <button value="<?=$guest_id?>" class="edit_button edit_guest">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
                 </small>
             </td>
             <td><?=$meal?></td>
@@ -112,9 +131,9 @@
             <td rowspan="<?=$guest_count?>"><?=$party['rsvp_comment']?></td>
             <td rowspan="<?=$guest_count?>">
                 <?=$party['url_key']?>
-                <form method="post" action="#guests">
-                    <input type="hidden" name="new_key_party_id" value="<?=$party['id']?>"/>
-                    <small><small><input type="submit" value="New Key"/></small></small>
+                <form method="post" action="#guests" class="button_form">
+                    <input type="hidden" name="new_key_party_id" value="<?=$party['id']?>"/><br/>
+                    <small><small><input name="new_url_key" type="submit" value="New Key"/></small></small>
                 </form>
             </td>
         </tr>
@@ -125,7 +144,8 @@
             <td>
                 <?=$guest_name?>
                 <small style="float: right;">
-                    <form method="post" action="#guests"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
+                    <button value="<?=$guest_id?>" class="edit_button edit_guest">edit</button>
+                    <form method="post" action="#guests" class="button_form"><button class="delete_button" name="delete_guest" value="<?=$guest_id?>">delete</button></form>
                 </small>
             </td>
             <td><?=$meal?></td>
@@ -158,6 +178,54 @@
         }
         ?>
     </table>
+    <!-- edit party dialog -->
+    <div id="edit_party_dialog" class="dialog_form">
+        <form method="post" action="#guests">
+            <fieldset>
+                <input type="hidden" name="party_id" id="party_id"/>
+                <div>
+                    <label for="new_nickname">Nickname:</label>
+                    <input type="text" id="new_nickname" name="new_nickname"/>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
+    <!-- edit guest dialog -->
+    <div id="edit_guest_dialog" class="dialog_form">
+        <form method="post" action="#guests">
+            <fieldset>
+                <input type="hidden" name="guest_id" id="guest_id"/>
+                <div>
+                    <label for="new_name">Name:</label>
+                    <input type="text" id="new_name" name="new_name"/>
+                </div>
+                <div>
+                    <label for="attending">Attending:</label>
+                    <select id="attending" name="attending">
+                        <option value="">[Blank]</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="new_meal_id">Meal:</label>
+                    <select id="new_meal_id" name="new_meal_id">
+                        <option value="">[Blank]</option>
+                    <?php
+                        $result = $conn->query("SELECT id, name FROM meals;");
+                        while ($meal = $result->fetch_assoc()) {
+                        ?>
+                            <option value="<?=$meal['id']?>"><?=$meal['name']?></option>
+                        <?php
+                        }
+                    ?>
+                    </select>
+                </div>
+                <input type="submit" value="Save"/>
+            </fieldset>
+        </form>
+    </div>
     <?php
     }
 
@@ -173,7 +241,7 @@
                 <td>
                     <?=$key['value']?>
                     <small style="float: right;">
-                        <form method="post" action="#keys"><button class="delete_button" name="delete_url_key" value="<?=$key['id']?>">delete</button></form>
+                        <form method="post" action="#keys" class="button_form"><button class="delete_button" name="delete_url_key" value="<?=$key['id']?>">delete</button></form>
                     </small>
                 </td>
             </tr>

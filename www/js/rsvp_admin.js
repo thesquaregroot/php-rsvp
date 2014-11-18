@@ -90,9 +90,39 @@ $(function() {
             $(this).parent("div").remove();
         });
     });
-    //$('.edit_party').click(function() {
-    //    // TODO
-    //});
+    $('.edit_party').click(function() {
+        var id = $(this).val();
+        $.getJSON('/ajax/admin/party.php?party_id=' + id, function(data) {
+            $('#party_id').val(id);
+            $('#new_nickname').val(data.nickname);
+            $('#edit_party_dialog').dialog({
+                title: 'Editing Party ' + id
+            });
+        });
+    });
+    $('.edit_guest').click(function() {
+        var id = $(this).val();
+        $.getJSON('/ajax/admin/guest.php?guest_id=' + id, function(data) {
+            $('#guest_id').val(id);
+            $('#new_name').val(data.name);
+            $('#attending').val(data.response);
+            $('#new_meal_id').val(data.meal_id);
+            $('#edit_guest_dialog').dialog({
+                title: 'Editing Guest ' + id
+            });
+        });
+    });
+    $('.edit_meal').click(function() {
+        var id = $(this).val();
+        $.getJSON('/ajax/admin/meal.php?meal_id=' + id, function(data) {
+            $('#meal_id').val(id);
+            $('#new_meal_name').val(data.name);
+            $('#new_description').val(data.description);
+            $('#edit_meal_dialog').dialog({
+                title: 'Editing Meal ' + id
+            });
+        });
+    });
     $('[name="delete_party"]').click(function() {
         if (!confirm("Are you sure you want to delete party " + $(this).attr('value') + "?")) {
             event.preventDefault();
@@ -110,6 +140,11 @@ $(function() {
     });
     $('[name="delete_url_key"]').click(function() {
         if (!confirm("Are you sure you want to delete URL key " + $(this).attr('value') + "?")) {
+            event.preventDefault();
+        }
+    });
+    $('[name="new_url_key"]').click(function() {
+        if (!confirm("Are you sure you want to assign a URL key other than '" + $(this).attr('value') + "'?")) {
             event.preventDefault();
         }
     });

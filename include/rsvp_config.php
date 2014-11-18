@@ -20,7 +20,7 @@
     $THANK_YOU_HTML = "<p>&hearts; Thank you for your RSVP!</p>";
 
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
-    
+
     // url for rsvp-ing, key should go at the end
     $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/rsvp.php?k=';
     // if using .htaccess to avoid 'rsvp.php?k=' piece
@@ -29,7 +29,7 @@
     // switch to false to force users to live out their sessions
     // when set to true (default), a user can access multiple URLs back-to-back
     $ALLOW_CHANGE_OF_PARTY = true;
-    
+
     // confirmation emails
     $ALWAYS_SEND_CONFIRMATION_EMAIL = true;
     // confirmation email headers
@@ -77,21 +77,25 @@
     // update to whatever you like, especially if you may have multiple events
     $MYSQL_DB_NAME = "rsvp";
 
+    $DEFAULT_SESSION_TIMEOUT = 86400; // one day
+
     $JS_DIR = "/js";
     $CSS_DIR = "/css";
     $QR_DIR = "/qrcode";
-    
+
     $QR_LEVEL = 'L'; // valid values: L, M, Q, H
     $QR_VERSION = 1; // QR code version
     $QR_SIZE = 2; // size of dot in pixels
 
-    //$JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
-    $JQUERY_LOCATION = "/js/jquery.min.js";
-    $JQUERY_UI_THEME = "flick";
+    $JQUERY_VERSION = "1.11.0";
+    $JQUERY_LOCATION = "//ajax.googleapis.com/ajax/libs/jquery/${JQUERY_VERSION}/jquery.min.js";
+    //$JQUERY_LOCATION = "/js/jquery.min.js";
 
-    //$JQUERY_UI_JS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
-    //$JQUERY_UI_CSS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/${JQUERY_UI_THEME}/jquery-ui.css";
-    $JQUERY_UI_JS_LOCATION = "/js/jquery-ui.min.js";
-    $JQUERY_UI_CSS_LOCATION = "/css/jquery-ui.min.css";
+    $JQUERY_UI_THEME = "flick";
+    $JQUERY_UI_VERSION = "1.10.4";
+    $JQUERY_UI_JS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/${JQUERY_UI_VERSION}/jquery-ui.min.js";
+    //$JQUERY_UI_JS_LOCATION = "/js/jquery-ui.min.js";
+    $JQUERY_UI_CSS_LOCATION = "//ajax.googleapis.com/ajax/libs/jqueryui/${JQUERY_UI_VERSION}/themes/${JQUERY_UI_THEME}/jquery-ui.css";
+    //$JQUERY_UI_CSS_LOCATION = "/css/jquery-ui.min.css";
 
 ?>
