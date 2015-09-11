@@ -31,7 +31,7 @@ Dependancies & Installation
 php-rsvp depends on:
 
 - apache/httpd
-- php5 (>=5.5 recommended)
+- php (>=5.5 recommended, >=5.3.0 required)
 - mysql
 - jQuery
 - jQuery-UI

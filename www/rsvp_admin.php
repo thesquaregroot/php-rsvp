@@ -64,7 +64,7 @@
             <h3>Setup RSVP</h3>
             <div>
                 <form method="post" id="setup_form">
-                    <p><strong>WARNING:</strong> This step will fail if MySQL is not already installed and running.</p>
+                    <?php print_setup_warnings(); ?>
                     <table>
                         <tr><td>MySQL Root Password:</td><td><input type="password" name="root_password" required="required" /></td></tr>
                         <tr><td>MySQL User Name:</td><td><input type="text" name="mysql_username" required="required" value="rsvp_user" /></td></tr>
