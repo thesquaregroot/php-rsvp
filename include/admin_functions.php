@@ -18,7 +18,7 @@
     function print_setup_warnings() {
         // warn about unsupported versions
         if (version_compare(phpversion(), '5.3.0', '<')) {
-            ?><p class="error"><strong>WARNING:</strong> The current version of PHP is unsupported and may result in unexpected behavior.</p><?php
+            ?><p class="error"><strong>WARNING:</strong> The current version of PHP is unsupported as versions prior to 5.3.0 may result in unexpected behavior.</p><?php
         }
         // warn about lack of password_hash
         if (version_compare(phpversion(), '5.5.0', '<')) {
