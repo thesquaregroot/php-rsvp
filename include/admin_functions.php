@@ -16,15 +16,13 @@
     }
 
     function print_setup_warnings() {
-        // print standard warning about setup
-        ?><p><strong>WARNING:</strong> This step will fail if MySQL is not already installed and running.</p><?php
         // warn about unsupported versions
         if (version_compare(phpversion(), '5.3.0', '<')) {
             ?><p class="error"><strong>WARNING:</strong> The current version of PHP is unsupported and may result in unexpected behavior.</p><?php
         }
         // warn about lack of password_hash
         if (version_compare(phpversion(), '5.5.0', '<')) {
-            ?><p class="error"><strong>WARNING:</strong> The current version of PHP will result in sub-par password hashing.  Please upgrade to ensure the greatest level of security.</p><?php
+            ?><p class="error"><strong>WARNING:</strong> The current version of PHP will result in sub-par password hashing.  Please use PHP 5.5.0 or greater to ensure the greatest level of security.</p><?php
         }
     }
 
