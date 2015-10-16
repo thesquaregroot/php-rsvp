@@ -1,13 +1,7 @@
 <?php
     require_once(__DIR__."/html_functions.php");
     require_once(__DIR__."/rsvp_config.php");
-
-    if (!function_exists('password_hash')) {
-        function password_hash($password, $algo, $options=Array()) {
-            return md5($password);
-        }
-        define('PASSWORD_BCRYPT', 1);
-    }
+    require_once(__DIR__."/admin_functions.php");
 
     function create_tables($conn) {
         // admin users
@@ -33,7 +27,7 @@
         if ($conn->error) {
             return $conn->error;
         }
-        
+
         // guests
         $conn->query("CREATE TABLE guests ("
                     . " id INT AUTO_INCREMENT,"
@@ -142,7 +136,7 @@
             if($mysql_root->query("DROP DATABASE IF EXISTS `" . $MYSQL_DB_NAME . "`;")) {
                 if ($mysql_root->query("CREATE DATABASE `" . $MYSQL_DB_NAME . "`;")) {
                     $mysql_root->select_db($MYSQL_DB_NAME);
-                    // create tables                
+                    // create tables
                     if ($error = create_tables($mysql_root)) {
                         print_error("Could not create rsvp tables: " . $error);
                     } else {

@@ -41,6 +41,8 @@
                                 $_POST['admin_password1']);
             ?></div><?php
         }
+        // consistently warn about invalid setup
+        print_setup_warnings();
     ?>
     <div>
         <?php

@@ -2,9 +2,27 @@
     require_once(__DIR__."/mysql.php");
     require_once(__DIR__."/rsvp_config.php");
 
+    // account for php versions that don't have password_hash and password_verify
     if (!function_exists('password_hash')) {
+        define('PASSWORD_BCRYPT', 1);
+
+        function password_hash($password, $algo, $options=Array()) {
+            return md5($password);
+        }
+
         function password_verify($password, $hash) {
             return (md5($password) == $hash);
+        }
+    }
+
+    function print_setup_warnings() {
+        // warn about unsupported versions
+        if (version_compare(phpversion(), '5.3.0', '<')) {
+            ?><p class="error"><strong>WARNING:</strong> The current version of PHP is unsupported as versions prior to 5.3.0 may result in unexpected behavior.</p><?php
+        }
+        // warn about lack of password_hash
+        if (version_compare(phpversion(), '5.5.0', '<')) {
+            ?><p class="error"><strong>WARNING:</strong> The current version of PHP will result in sub-par password hashing.  Please use PHP 5.5.0 or greater to ensure the greatest level of security.</p><?php
         }
     }
 
