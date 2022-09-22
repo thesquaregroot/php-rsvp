@@ -7,3 +7,5 @@ www/css/jquery-ui.min.css
 www/css/images/
 
 include/rsvp_config_personal.php
+
+/vendor/

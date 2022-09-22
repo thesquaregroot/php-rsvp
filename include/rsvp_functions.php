@@ -15,6 +15,8 @@
     //      get_party_names(conn, party_id)
 
     function get_party_id($conn, $key) {
+
+        
         if ($stmt = $conn->prepare("SELECT party_id FROM url_keys WHERE value = ?")) {
             $stmt->bind_param('s', $key);
             $stmt->execute();

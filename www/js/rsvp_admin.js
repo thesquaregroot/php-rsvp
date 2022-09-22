@@ -1,7 +1,11 @@
 
+var AJAX_URL ='';
 // initialize jQuery-UI elements
 function jQueryUI() {
     // jQuery-UI widgets
+
+    AJAX_URL = $('meta[name="ajax_url"]').attr('content');
+
     var hashes = {
         '#guests' : 0,
         '#meals' : 1,
@@ -92,7 +96,7 @@ $(function() {
     });
     $('.edit_party').click(function() {
         var id = $(this).val();
-        $.getJSON('/ajax/admin/party.php?party_id=' + id, function(data) {
+        $.getJSON(AJAX_URL+'/admin/party.php?party_id=' + id, function(data) {
             $('#party_id').val(id);
             $('#new_nickname').val(data.nickname);
             $('#edit_party_dialog').dialog({
@@ -102,7 +106,7 @@ $(function() {
     });
     $('.edit_guest').click(function() {
         var id = $(this).val();
-        $.getJSON('/ajax/admin/guest.php?guest_id=' + id, function(data) {
+        $.getJSON(AJAX_URL+'/admin/guest.php?guest_id=' + id, function(data) {
             $('#guest_id').val(id);
             $('#new_name').val(data.name);
             $('#attending').val(data.response);
@@ -114,7 +118,7 @@ $(function() {
     });
     $('.edit_meal').click(function() {
         var id = $(this).val();
-        $.getJSON('/ajax/admin/meal.php?meal_id=' + id, function(data) {
+        $.getJSON(AJAX_URL+'/admin/meal.php?meal_id=' + id, function(data) {
             $('#meal_id').val(id);
             $('#new_meal_name').val(data.name);
             $('#new_description').val(data.description);

@@ -15,6 +15,9 @@
 <!-- php-rsvp -->
 <script type="text/javascript" src="<?=$JS_DIR?>/rsvp_admin.js"></script>
 <link rel="stylesheet" type="text/css" href="<?=$CSS_DIR?>/rsvp_admin.css" />
+
+<meta name="ajax_url" content="<?=$AJAX_URL?>"/>
+
 </head>
 
 <body class="ui-widget">

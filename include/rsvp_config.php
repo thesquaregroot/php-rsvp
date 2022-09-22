@@ -1,4 +1,9 @@
 <?php
+
+        declare(strict_types=1);
+
+        require_once('./../vendor/autoload.php');
+
     $MASTER_PAGE_TITLE = "Your Event Title";
     $HOST_CONTACT_EMAIL = "contact@example.com";
 
@@ -22,7 +27,7 @@
     $ADDITIONAL_DETAILS_HTML = "<p>This event may be held on the moon, weather permitting.</p>";
 
     // url for rsvp-ing, key should go at the end
-    $BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/rsvp.php?k=';
+    $BASE_RSVP_URL = 'http://localhost/php-rsvp/www/rsvp.php?k=';
     // if using .htaccess to avoid 'rsvp.php?k=' piece
     //$BASE_RSVP_URL = 'http://' . gethostbyname(gethostname()) . '/';
 
@@ -72,16 +77,17 @@
     }
 
     // technical details
-    $MYSQL_USERNAME = ""; // update after RSVP SETUP
+    $MYSQL_USERNAME = "root"; // update after RSVP SETUP
     $MYSQL_PASSWORD = ""; // update after RSVP SETUP
     // update to whatever you like, especially if you may have multiple events
     $MYSQL_DB_NAME = "rsvp";
 
     $DEFAULT_SESSION_TIMEOUT = 86400; // one day
 
-    $JS_DIR = "/js";
-    $CSS_DIR = "/css";
-    $QR_DIR = "/qrcode";
+    $JS_DIR = "js";
+    $CSS_DIR = "css";
+    $AJAX_URL = "http://localhost/php-rsvp/www/ajax";
+    $QR_DIR = "qrcode";
 
     $QR_LEVEL = 'L'; // valid values: L, M, Q, H
     $QR_VERSION = 1; // QR code version

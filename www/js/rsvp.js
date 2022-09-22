@@ -1,9 +1,15 @@
 
 // initialize jQuery-UI elements
+
+var AJAX_URL ='';
 function jQueryUI() {
     // jQuery-UI widgets
     $('.accordion').accordion({ collapsible: true, active: false, heightStyle: "content"});
     $('button,input[type=button],input[type=submit]').button();
+
+     AJAX_URL = $('meta[name="ajax_url"]').attr('content');
+    
+
 }
 
 function display_options(checkbox) {
@@ -27,6 +33,8 @@ function thank_you() {
 
 $(function() {
     jQueryUI();
+
+  
 
     // Confirm identity
     $('#wrong_person_link').click(function(event) {
@@ -74,7 +82,7 @@ $(function() {
                 // data seems good, submit to ajax page
                 $.ajax({
                     type: "POST",
-                    url: '/ajax/submit_rsvp.php',
+                    url: AJAX_URL+'/submit_rsvp.php',
                     cache: false,
                     data: $(this).serialize()
                 }).done(function (data) {
@@ -95,7 +103,7 @@ $(function() {
     $('#confirm_no').submit(function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
-            $.post('/ajax/submit_rsvp.php', $(this).serialize(), function (data) {
+            $.post(AJAX_URL+'/submit_rsvp.php', $(this).serialize(), function (data) {
                 if (data[0] == '0') {
                     thank_you();
                 } else {

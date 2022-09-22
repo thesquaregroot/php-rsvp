@@ -3,7 +3,7 @@
     include("../include/admin_functions.php");
     include("../include/session_functions.php");
     // determine whether mysql is setup
-    $RSVP_CONFIGURED = isset($MYSQL_USERNAME) && $MYSQL_USERNAME && isset($MYSQL_PASSWORD) && $MYSQL_PASSWORD;
+    $RSVP_CONFIGURED = isset($MYSQL_USERNAME)  && isset($MYSQL_PASSWORD);
     start_session();
 ?>
 <div id="content">

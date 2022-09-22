@@ -119,7 +119,7 @@
             $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
             $headers .= "X-Mailer: PHP/" . phpversion();
             // send email
-            $sent_email = mail($to, $subject, $message, $headers)?1:-1;
+            $sent_email = @mail($to, $subject, $message, $headers) ? 1:-1;
         }
     }
     $rsvp_conn->commit();

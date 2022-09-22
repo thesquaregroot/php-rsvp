@@ -1,0 +1,12 @@
+{
+    "name": "sl/php-rsvp",
+    "authors": [
+        {
+            "name": "Khurram Malik",
+            "email": "kmalik554@gmail.com"
+        }
+    ],
+    "require": {
+        "chillerlan/php-qrcode": "^4.3"
+    }
+}

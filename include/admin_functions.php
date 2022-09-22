@@ -1,6 +1,11 @@
 <?php
+
+
     require_once(__DIR__."/mysql.php");
     require_once(__DIR__."/rsvp_config.php");
+
+    use chillerlan\QRCode\QRCode;
+    use chillerlan\QRCode\QROptions;
 
     // account for php versions that don't have password_hash and password_verify
     if (!function_exists('password_hash')) {
@@ -348,25 +353,26 @@
     }
 
     function qrcode($data, $filename) {
+        
+        
+
         global $QR_DIR;
         global $QR_LEVEL;
         global $QR_VERSION;
         global $QR_SIZE;
 
-        $file_path = $QR_DIR."/".urlencode(urlencode($filename)).".png";
-        $abs_file_path = realpath(__DIR__) . "/../www" . $QR_DIR."/".urlencode($filename).".png";
-
-        if (file_exists($abs_file_path)) {
-            ?><img src="<?=$file_path?>" /><?php
-        } else {
-            $qr_cmd = escapeshellcmd("qrencode -l $QR_LEVEL -v $QR_VERSION -s $QR_SIZE -o ".escapeshellarg($abs_file_path)." ".escapeshellarg($data));
-            exec($qr_cmd, $output, $return_val);
-            if ($return_val == 0) {
-                ?><img src="<?=$file_path?>" /><?php
-            } else {
-                print_error("Could not create QR code.  Please reload to try again.");
-            }
-        }
+        $options = new QROptions(
+            [
+              'eccLevel' => QRCode::ECC_L,
+              'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+              'version' => 5,
+            ]
+          );
+          
+           $qrcode = (new QRCode($options))->render($data);
+        ?>
+           <img src="<?=$qrcode?>" />
+        <?php
     }
 
     function get_email_string($conn, $response_type = null) {
